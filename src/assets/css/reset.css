@@ -60,8 +60,24 @@ i {
 
 
 ol,
-ul {
+ul,
+li {
   list-style-image: none;
   list-style-position: outside;
   list-style-type: none;
+  text-decoration: none;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  box-sizing: border-box;
+  background-color: rgb(10, 10, 12);
+}
+
+a {
+  text-decoration: none;
+  color: #fff;
 }

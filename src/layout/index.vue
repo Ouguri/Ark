@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="layout">
     <Header></Header>
     <Content></Content>
   </div>
@@ -10,4 +10,7 @@ import Header from "@/layout/header/index.vue";
 import Content from "@/layout/content/index.vue";
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.layout {
+}
+</style>
