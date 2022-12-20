@@ -46,19 +46,27 @@
 </template>
 
 <script setup lang="ts">
-import { signIn } from "@/api/index";
 import { ref } from "vue";
+import { userStore } from "@/stores/user";
+import { useRouter } from "vue-router";
 let username = ref<string>("ouguri");
 let password = ref<string>("500Oo4!ss");
 
+const user_store = userStore();
+const router = useRouter();
+
 const userLogin = async () => {
-  const signin_data = {
+  const res = await user_store.userSignIn({
     username: username.value,
     password: password.value,
-  };
-  console.log(signin_data);
-  const res = await signIn(signin_data);
-  console.log(res);
+  });
+  if (res.status == 0) {
+    // 跳转路由到首页
+    router.push("/");
+  } else {
+    username.value = password.value = "";
+    console.log("用户名或密码错误");
+  }
 };
 </script>
 

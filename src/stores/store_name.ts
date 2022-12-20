@@ -1,3 +1,3 @@
 export const enum Names {
-  userStore = "userData",
+  userStore = "user_store",
 }
