@@ -5,13 +5,17 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      path: "/",
+      redirect: "ark",
+    },
+    {
       // 此为页面结构，之下应是之内的各个路由
       // 本页是首页展示页
       component: Layout,
-      path: "/",
+      path: "/ark",
+      name: "ark",
       children: [
         /* 需要拥有的路由： */
-        // 富文本编辑页 ---> 发布成功页
         // 文章展示页
         // 个人中心页
         // 搜索展示页
@@ -21,6 +25,11 @@ const router = createRouter({
     {
       component: () => import("@/components/core/Login.vue"),
       path: "/login",
+    },
+    {
+      path: "/markdown",
+      name: "markdown",
+      component: () => import("@/views/markdown_page.vue"),
     },
   ],
 });

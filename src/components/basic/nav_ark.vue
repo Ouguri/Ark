@@ -2,21 +2,25 @@
   <nav class="nav">
     <div class="nav_ark_logo">
       <img src="" alt="" />
+      <ul class="nav_ul">
+        <li class="nav_ul_select">
+          <router-link to="">论坛</router-link>
+        </li>
+        <li class="nav_ul_select">
+          <router-link to="">精选</router-link>
+        </li>
+        <li class="nav_ul_select">
+          <router-link to="">个人中心</router-link>
+        </li>
+        <li class="nav_ul_select">
+          <RouterLink to="markdown">写作</RouterLink>
+        </li>
+      </ul>
     </div>
-    <ul class="nav_ul">
-      <li class="nav_ul_select">
-        <router-link to="">论坛</router-link>
-      </li>
-      <li class="nav_ul_select">
-        <router-link to="">精选</router-link>
-      </li>
-      <li class="nav_ul_select">
-        <router-link to="">个人中心</router-link>
-      </li>
-      <li class="nav_ul_select">
-        <RouterLink to="/login">加入我们</RouterLink>
-      </li>
-    </ul>
+
+    <div class="nav_right">
+      <RouterLink to="/login">JOIN US</RouterLink>
+    </div>
   </nav>
 </template>
 
@@ -28,23 +32,32 @@ $primary-font-color: rgb(240, 240, 240);
 .nav {
   z-index: 1;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 7rem;
-  background: $main-background-color;
+  background: transparent;
 
   &_ul {
     display: flex;
     align-items: center;
-    padding-left: 4rem;
+    padding-left: 3rem;
     &_select {
-      padding-left: 3rem;
+      font-weight: 500;
       color: $primary-font-color;
       font-size: 1.6rem;
+      &:not(:first-child) {
+        padding-left: 3.5rem;
+      }
     }
+  }
+
+  &_right {
+    padding-right: 3.5rem;
+    font-size: 1.6rem;
   }
 }
 </style>
