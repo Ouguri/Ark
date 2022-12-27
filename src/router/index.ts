@@ -31,6 +31,11 @@ const router = createRouter({
       name: "markdown",
       component: () => import("@/views/markdown_page.vue"),
     },
+    {
+      path: "/article",
+      name: "article",
+      component: () => import("@/views/article_show.vue"),
+    },
   ],
 });
 
