@@ -1,6 +1,5 @@
 <template>
   <div class="content">
-    <h1>content</h1>
     <WhatArk></WhatArk>
     <ShowUser></ShowUser>
     <ShowWrite></ShowWrite>
@@ -19,9 +18,6 @@ import AuthorSay from "@/components/basic/main_page/author_saying.vue";
 @import "@/assets/css/variable.scss";
 .content {
   width: $main_page_width;
-  margin: 0 auto;
-}
-h1 {
-  color: $dark_font_color;
+  margin: 4rem auto;
 }
 </style>

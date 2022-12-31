@@ -1,7 +1,9 @@
 <template>
-  <div>
+  <div class="login_page">
+    <NavGloal class="nav_position_open"></NavGloal>
     <div class="page">
       <div class="login">
+        <img src="../../assets/images/main_img/game.jpg" alt="" />
         <form class="login_box">
           <div class="login_box_ipt margin_login">
             <label for="username" class="login_box_title">
@@ -9,6 +11,7 @@
             </label>
             <el-input
               id="username"
+              style="width: 43rem"
               class="login_box_input"
               v-model="username"
               placeholder="账号名"
@@ -71,6 +74,7 @@ const userLogin = async () => {
 </script>
 
 <style scoped lang="scss">
+@import "@/assets/css/variable.scss";
 :deep(.el-input__wrapper) {
   background-color: rgb(50, 53, 60);
   box-shadow: none;
@@ -90,19 +94,40 @@ const userLogin = async () => {
   color: #fff;
 }
 
+.login_page {
+  width: 100vw;
+  height: 100vh;
+  background: url("../../assets/images/login_bgc.jpg"), rgba(25, 25, 25, 0.5);
+  background-repeat: no-repeat;
+  background-blend-mode: overlay;
+}
+
 .page {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  overflow: hidden;
 }
 
 .login {
   padding: 5rem;
   width: 60rem;
   height: 25rem;
-  background-color: rgb(24, 26, 33);
+  background: linear-gradient(-63deg, transparent 35%, rgb(24, 26, 33) 35%);
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: 0 0 1.2rem rgb(24, 26, 33);
   border-radius: 3px;
+
+  img {
+    position: absolute;
+    top: -10%;
+    left: 20%;
+    width: 100%;
+    z-index: -100;
+  }
 
   &_box {
     display: flex;
@@ -128,8 +153,8 @@ const userLogin = async () => {
       &:link,
       &:visited {
         display: inline-block;
-        width: 25rem;
-        height: 5rem;
+        width: 31rem;
+        height: 4.7rem;
         font-size: 1.8rem;
         transition: all 0.4s;
         position: relative;
@@ -145,7 +170,7 @@ const userLogin = async () => {
         border-radius: 2px;
         color: #fff;
         cursor: pointer;
-        margin: 0 auto;
+        margin-top: 1.7rem;
       }
       &:hover {
         background-position: 50%;
@@ -167,5 +192,10 @@ const userLogin = async () => {
 
 .margin_login {
   margin-bottom: 1.4rem;
+}
+
+.nav_position_open {
+  background-color: $background_color_dark !important;
+  box-shadow: 0px 27px 8rem rgb(0, 0, 0);
 }
 </style>

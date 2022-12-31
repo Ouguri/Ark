@@ -9,7 +9,9 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Author_saying: typeof import('./src/components/basic/main_page/author_saying.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElIcon: typeof import('element-plus/es')['ElIcon']
     ElInput: typeof import('element-plus/es')['ElInput']
+    IEpSearch: typeof import('~icons/ep/search')['default']
     Login: typeof import('./src/components/core/Login.vue')['default']
     Nav_ark: typeof import('./src/components/basic/nav_ark.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
@@ -18,6 +20,7 @@ declare module '@vue/runtime-core' {
     Show_write: typeof import('./src/components/basic/main_page/show_write.vue')['default']
     'Show——write': typeof import('./src/components/basic/main_page/show——write.vue')['default']
     ShowWrite: typeof import('./src/components/basic/main_page/show-write.vue')['default']
+    Title_main: typeof import('./src/components/basic/theme_component/title_main.vue')['default']
     What_is_ark: typeof import('./src/components/basic/main_page/what_is_ark.vue')['default']
   }
 }

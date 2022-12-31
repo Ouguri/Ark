@@ -1,4 +1,5 @@
 <template>
+  <NavGloal></NavGloal>
   <div class="article_box">
     <div class="article_box_left">
       <div class="article_box_left_link">

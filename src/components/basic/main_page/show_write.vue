@@ -1,7 +1,11 @@
 <template>
-  <section class="content_show-write">展示书写文章的页面</section>
+  <div>
+    <TitleMain>畅快写作</TitleMain>
+  </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import TitleMain from "../theme_component/title_main.vue";
+</script>
 
 <style scoped></style>
