@@ -36,7 +36,7 @@ onMounted(async () => {
 }
 
 .nav_position_open {
-  background-color: $background_color_dark !important;
+  background-color: $nav_color_dark !important;
   box-shadow: 0px 0px 1.4rem rgb(12, 12, 12);
 }
 </style>
