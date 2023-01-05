@@ -5,8 +5,10 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
+
 // 使用环境变量
 console.log(import.meta.env.VITE_API);
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped></style>

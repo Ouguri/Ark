@@ -45,29 +45,32 @@
         </div>
       </div>
     </div>
-    <div class="article_box_middle">
-      <h1>关于 Ark 的介绍</h1>
-      <div class="article_box_middle_author">
-        <router-link to="/">
-          <HeaderImg size="6.3rem"></HeaderImg>
-        </router-link>
-        <div class="article_box_middle_author_data">
-          <router-link class="author_link" to="/">
-            <span>Ouguri </span>
-            <span>Lv: 1</span>
+    <div class="article_box_right">
+      <div class="article_box_right_articlepart">
+        <h1>关于 Ark 的介绍</h1>
+        <div class="article_box_right_author">
+          <router-link to="/">
+            <HeaderImg size="6.3rem"></HeaderImg>
           </router-link>
-          <div class="author_watch">
-            <span>2022年11月14日 11:14</span>
-            <span> -- </span>
-            <span>阅读量：922</span>
+          <div class="article_box_right_author_data">
+            <router-link class="author_link" to="/">
+              <span>Ouguri </span>
+              <span>Lv: 1</span>
+            </router-link>
+            <div class="author_watch">
+              <span>2022年11月14日 11:14</span>
+              <span> -- </span>
+              <span>阅读量：922</span>
+            </div>
           </div>
         </div>
+        <v-md-preview
+          :text="content"
+          ref="preview"
+          class="article_box_right_text"
+        ></v-md-preview>
       </div>
-      <v-md-preview
-        :text="content"
-        ref="preview"
-        class="article_box_middle_text"
-      ></v-md-preview>
+      <ArticleComment class="article_box_right_commentpart"></ArticleComment>
     </div>
   </div>
 </template>
@@ -76,6 +79,7 @@
 import { articleStore } from "@/stores/article";
 import { onMounted, ref, reactive, nextTick } from "vue";
 import HeaderImg from "@/components/basic/theme_component/header_img.vue";
+import ArticleComment from "@/components/basic/article_page/comment_show.vue";
 const useArticleStore = articleStore();
 
 const content = ref<string>("");
@@ -116,9 +120,9 @@ const handleAnchorClick = (lineIndex: number): void => {
 .article_box {
   width: 114rem;
   margin: 2rem auto;
-  color: rgb(233, 223, 204);
   display: flex;
   &_left {
+    min-width: 30rem;
     max-width: 30rem;
     margin-right: 10px;
 
@@ -126,7 +130,7 @@ const handleAnchorClick = (lineIndex: number): void => {
       &_author {
         border-radius: 3px;
         border-top-left-radius: 3rem;
-        background-color: rgb(18, 15, 25);
+        background-color: $article_card_bgc_color;
         height: 18rem;
         margin-bottom: 1rem;
         overflow: hidden;
@@ -147,7 +151,7 @@ const handleAnchorClick = (lineIndex: number): void => {
           display: flex;
           justify-content: space-between;
           button {
-            padding: 0.4rem 4.5rem;
+            padding: 0.4rem 4.3rem;
             cursor: pointer;
           }
         }
@@ -164,13 +168,12 @@ const handleAnchorClick = (lineIndex: number): void => {
       }
       &_title {
         border-radius: 3px;
-        background-color: rgb(18, 15, 25);
+        background-color: $article_card_bgc_color;
         padding: 2rem;
         border: 1px solid $article_border_dark;
 
         a {
           cursor: pointer;
-          color: rgb(233, 223, 204);
         }
         a:before {
           content: "";
@@ -183,7 +186,7 @@ const handleAnchorClick = (lineIndex: number): void => {
 
         a:hover:before {
           content: "";
-          background-color: #fff;
+          background-color: $article_font_color_dark;
           border-radius: 2px;
           margin-right: 0.5rem;
         }
@@ -193,11 +196,20 @@ const handleAnchorClick = (lineIndex: number): void => {
       }
     }
   }
-  &_middle {
-    background-color: rgb(18, 15, 25);
-    border-radius: 3px;
+  &_right {
     width: 85rem;
-    border: 1px solid $article_border_dark;
+    &_articlepart {
+      border-radius: 3px;
+      background-color: $article_card_bgc_color;
+      border: 1px solid $article_border_dark;
+    }
+    &_commentpart {
+      border-radius: 3px;
+      background-color: $article_card_bgc_color;
+      border: 1px solid $article_border_dark;
+      margin-top: 1rem;
+      padding: 2rem 3rem;
+    }
     h1 {
       font-size: 4em;
       padding: 3rem 3rem 0 3rem;

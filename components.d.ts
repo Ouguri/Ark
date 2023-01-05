@@ -8,11 +8,13 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Author_saying: typeof import('./src/components/basic/main_page/author_saying.vue')['default']
+    Comment_show: typeof import('./src/components/basic/article_page/comment_show.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElIcon: typeof import('element-plus/es')['ElIcon']
     ElInput: typeof import('element-plus/es')['ElInput']
     Header_img: typeof import('./src/components/basic/theme_component/header_img.vue')['default']
     IEpAvatar: typeof import('~icons/ep/avatar')['default']
+    IEpComment: typeof import('~icons/ep/comment')['default']
     IEpSearch: typeof import('~icons/ep/search')['default']
     IEpStar: typeof import('~icons/ep/star')['default']
     Login: typeof import('./src/components/core/Login.vue')['default']
