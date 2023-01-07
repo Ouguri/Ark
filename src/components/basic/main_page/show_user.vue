@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <TitleMain>佳作推荐</TitleMain>
+    <TitleMain>特别呈现</TitleMain>
   </div>
 </template>
 

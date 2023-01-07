@@ -47,7 +47,7 @@
     </div>
     <div class="article_box_right">
       <div class="article_box_right_articlepart">
-        <h1>关于 Ark 的介绍</h1>
+        <h1>{{ title }}</h1>
         <div class="article_box_right_author">
           <router-link to="/">
             <HeaderImg size="6.3rem"></HeaderImg>
@@ -83,11 +83,14 @@ import ArticleComment from "@/components/basic/article_page/comment_show.vue";
 const useArticleStore = articleStore();
 
 const content = ref<string>("");
-const preview = ref();
+const title = ref<string>("");
 const titles = reactive<any>([]);
+const preview = ref();
 
 onMounted(async () => {
+  // 测试用，之后换成接口请求
   content.value = await useArticleStore.$state.article;
+  title.value = await useArticleStore.$state.title;
   await nextTick();
 
   // 配置导航栏
@@ -116,10 +119,9 @@ const handleAnchorClick = (lineIndex: number): void => {
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/css/variable.scss";
+@import "@/assets/css/mixins.scss";
 .article_box {
-  width: 114rem;
-  margin: 2rem auto;
+  @include page_width;
   display: flex;
   &_left {
     min-width: 30rem;

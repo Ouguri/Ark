@@ -86,6 +86,7 @@
     outline: none;
     padding: 2rem;
     font-size: 1.6rem;
+    color: $dark_font_color;
   }
 
   &_icon {

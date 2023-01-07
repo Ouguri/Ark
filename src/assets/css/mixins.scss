@@ -1,0 +1,5 @@
+@import "@/assets/css/variable.scss";
+@mixin page_width {
+    width: $main_page_width;
+    margin: 2rem auto;
+}

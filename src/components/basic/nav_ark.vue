@@ -1,19 +1,30 @@
 <template>
   <nav class="nav">
     <div class="nav_ark_logo">
-      <!-- <img src="" alt="" /> -->
+      <router-link to="/">
+        <img src="../../assets/images/logo/logo-green-small-2x.png" alt="" />
+      </router-link>
       <ul class="nav_ul">
         <li class="nav_ul_select">
-          <router-link to="/">首页</router-link>
-        </li>
-        <li class="nav_ul_select">
-          <router-link to="">精选</router-link>
+          <router-link to="/search">精选</router-link>
         </li>
         <li class="nav_ul_select">
           <router-link to="">个人中心</router-link>
         </li>
         <li class="nav_ul_select">
           <RouterLink to="markdown">写作</RouterLink>
+        </li>
+        <li class="nav_ul_select">
+          <router-link to="/">留言</router-link>
+        </li>
+        <li class="nav_ul_select">
+          <div class="search_box">
+            <input type="text" />
+            <button class="search_box_icon">
+              <i-ep-search style="font-size: 1.5rem" />
+            </button>
+            <div class="overlay"></div>
+          </div>
         </li>
       </ul>
     </div>
@@ -27,6 +38,7 @@
 <script setup lang="ts"></script>
 
 <style lang="scss" scoped>
+@import "@/assets/css/variable.scss";
 $main-background-color: rgb(17, 17, 17, 0.5);
 $primary-font-color: rgb(240, 240, 240);
 .nav {
@@ -43,9 +55,17 @@ $primary-font-color: rgb(240, 240, 240);
   height: 7rem;
   background: transparent;
 
+  img {
+    position: absolute;
+    top: 45%;
+    left: 1%;
+    transform: translateY(-50%);
+    width: 16rem;
+  }
+
   &_ul {
     display: flex;
-    padding-left: 3rem;
+    padding-left: 22rem;
     margin-top: 2.2rem;
     &_select {
       font-weight: 500;
@@ -62,5 +82,60 @@ $primary-font-color: rgb(240, 240, 240);
     font-size: 1.6rem;
     margin-top: 2.2rem;
   }
+}
+
+.search_box {
+  width: 20rem;
+  position: relative;
+  bottom: 0.3rem;
+  z-index: 999;
+
+  &_icon {
+    position: absolute;
+    top: 22%;
+    right: -6%;
+    border: none;
+    background-color: transparent;
+    color: #fff;
+
+    cursor: pointer;
+    transition: all 0.2s;
+    &:hover {
+      transform: scale(1.08);
+    }
+  }
+
+  input {
+    width: 100%;
+    height: 1rem;
+    border-radius: 5px;
+    outline: none;
+    padding: 1rem;
+    font-size: 0.5em;
+    background-color: transparent;
+    border: 1px solid #fff;
+    transition: all 0.2s;
+    &:focus {
+      background-color: #fff;
+      color: $dark_font_color;
+    }
+  }
+  input:focus + .search_box_icon {
+    color: $dark_font_color;
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: all 0.2s;
+}
+
+input:focus ~ .overlay {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(12, 12, 12, 0.7);
+  z-index: -1;
 }
 </style>

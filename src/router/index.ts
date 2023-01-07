@@ -25,21 +25,28 @@ const router = createRouter({
       component: () => import("@/views/markdown_page.vue"),
     },
     {
-      path: "/article",
+      path: "/article/:id",
       name: "article",
       component: () => import("@/views/article_show.vue"),
     },
-    // {
-    //   path: '/articles:classily',
-    //   name: 'articles',
-    //   component: () => import()
-    // },
+    {
+      path: "/search",
+      name: "search",
+      component: () => import("@/views/search_show.vue"),
+    },
     // {
     //   path: '/personal:id',
     //   name: 'personalcenter',
     //   component: () => import()
     //   children: [],
     // }
+
+    // 404
+    {
+      path: "/:pathMatch(.*)*",
+      name: "404",
+      component: () => import("@/views/404.vue"),
+    },
   ],
 });
 

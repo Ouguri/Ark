@@ -1,3 +1,7 @@
+// @tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "@/assets/css/mixins.scss";
 @import "@/assets/css/variable.scss";
 body,
 dl,

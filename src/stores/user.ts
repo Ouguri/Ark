@@ -2,6 +2,7 @@
 import type { User } from "@/libcommon";
 import { defineStore } from "pinia";
 import { Names } from "./store_name";
+import { saveToken } from "@/utils/savetoken";
 import { signIn, signUp } from "@/api/index";
 import type { AxiosResponse } from "axios";
 
@@ -19,6 +20,7 @@ export const userStore = defineStore(Names.userStore, {
     async userSignIn(signin_data: User): Promise<AxiosResponse> {
       const result = await signIn(signin_data);
       this.user.token = result.data;
+      saveToken(result.data);
       this.user.username = signin_data.username;
       return result;
     },

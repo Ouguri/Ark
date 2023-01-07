@@ -1,4 +1,5 @@
 import axios, { type AxiosRequestConfig, type AxiosResponse } from "axios";
+import { getToken } from "@/utils/savetoken";
 
 const requestUser = axios.create({
   baseURL: `http://localhost:3000/api/v1`,
@@ -6,6 +7,11 @@ const requestUser = axios.create({
 });
 
 requestUser.interceptors.request.use((config): AxiosRequestConfig => {
+  // 判断携带token带给服务器
+  const token = getToken();
+  if (token) {
+    config.headers!.authorization = `Bearer ${token}`;
+  }
   return config;
 });
 
