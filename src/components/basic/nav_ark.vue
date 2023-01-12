@@ -29,16 +29,42 @@
       </ul>
     </div>
 
+    <!-- active-text="黑夜"
+    inactive-text="白天" -->
     <div class="nav_right">
-      <RouterLink to="/login">JOIN US</RouterLink>
+      <span
+        ><el-switch v-model="isDarkTheme" class="mb-2" @change="history_theme"
+      /></span>
+      <span><RouterLink to="/login">JOIN US</RouterLink></span>
     </div>
   </nav>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useTheme } from "@/hook/themeChange";
+import { themeStore } from "@/stores/theme";
+import { setTheme, getTheme } from "@/utils/saveTheme";
+import { onMounted } from "vue";
+
+const useThemeStore = themeStore();
+
+const { isDarkTheme, changeTheme } = useTheme();
+
+onMounted(() => {
+  const themeData = getTheme();
+  const change = !themeData;
+  if (themeData) isDarkTheme.value = change;
+  changeTheme();
+});
+
+const history_theme = () => {
+  isDarkTheme.value ? true : false;
+  changeTheme();
+  setTheme(isDarkTheme.value);
+};
+</script>
 
 <style lang="scss" scoped>
-@import "@/assets/css/variable.scss";
 $main-background-color: rgb(17, 17, 17, 0.5);
 $primary-font-color: rgb(240, 240, 240);
 .nav {
@@ -80,7 +106,10 @@ $primary-font-color: rgb(240, 240, 240);
   &_right {
     padding-right: 3.5rem;
     font-size: 1.6rem;
-    margin-top: 2.2rem;
+    margin-top: 1.6rem;
+    span {
+      margin-left: 1rem;
+    }
   }
 }
 
@@ -96,7 +125,7 @@ $primary-font-color: rgb(240, 240, 240);
     right: -6%;
     border: none;
     background-color: transparent;
-    color: #fff;
+    color: $light_font_color;
 
     cursor: pointer;
     transition: all 0.2s;
@@ -113,11 +142,12 @@ $primary-font-color: rgb(240, 240, 240);
     padding: 1rem;
     font-size: 0.5em;
     background-color: transparent;
-    border: 1px solid #fff;
+    border: 1px solid $light_font_color;
     transition: all 0.2s;
     &:focus {
       background-color: #fff;
       color: $dark_font_color;
+      border: 1px solid #fff;
     }
   }
   input:focus + .search_box_icon {

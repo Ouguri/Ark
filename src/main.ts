@@ -3,7 +3,6 @@ import { createPinia } from "pinia";
 import App from "./App.vue";
 import router from "./router";
 import NavGloal from "./components/basic/nav_ark.vue";
-import "@/assets/css/variable.scss";
 import "@/assets/css/reset.scss";
 import "element-plus/theme-chalk/el-loading.css";
 import "element-plus/theme-chalk/el-message.css";

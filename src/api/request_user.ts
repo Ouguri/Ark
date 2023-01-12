@@ -10,7 +10,7 @@ requestUser.interceptors.request.use((config): AxiosRequestConfig => {
   // 判断携带token带给服务器
   const token = getToken();
   if (token) {
-    config.headers!.authorization = `Bearer ${token}`;
+    config.headers!.Authorization = `bearer ${token}`;
   }
   return config;
 });

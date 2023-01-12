@@ -9,7 +9,6 @@
 <script setup lang="ts"></script>
 
 <style lang="scss" scoped>
-@import "@/assets/css/variable.scss";
 .container {
   color: $light_font_color;
   margin-top: 6rem;

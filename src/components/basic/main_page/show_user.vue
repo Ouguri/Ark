@@ -9,7 +9,6 @@ import TitleMain from "../theme_component/title_main.vue";
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/css/variable.scss";
 .container {
 }
 </style>

@@ -2,59 +2,34 @@
   <NavGloal class="nav_position_open"></NavGloal>
   <div class="theme_box">
     <h1 class="text-7xl">搜索结果</h1>
-    <div class="theme_box_content mt-12 p-8">
+    <div
+      class="theme_box_content mt-12 p-8"
+      v-for="item in showingData"
+      :key="item"
+      @click="goTOAnArticle(item)"
+    >
       <div class="theme_box_content_search p-6 bg-slate-800">
-        <div class="text-3xl font-bold">关于治疗儿子不举的365种方案</div>
+        <div class="text-3xl font-bold">{{ item.title }}</div>
         <div class="mt-5 text-2xl text-neutral-400">
-          2022的最后一天12.31号羊的，到医院检查出了肺炎， 今天才差不多好点了。
-          现在已经开播了，后续几天会恢复正常的直播+更新
-          大家千万照顾好自己，如果阳了该去医院还得去，别硬抗[给心心]
+          {{ item.content }}
         </div>
         <div class="footer flex justify-between mt-5">
           <div class="footer_left">
             <span>
               <i-ep-star style="font-size: 2rem; vertical-align: bottom" />
-              <span>20</span>
+              <span>{{ item.goods }}</span>
             </span>
             <span>
               <i-ep-comment style="font-size: 2rem; vertical-align: bottom" />
-              <span>32</span>
+              <span>{{ item.comment }}</span>
             </span>
             <span>
               <i-ep-comment style="font-size: 2rem; vertical-align: bottom" />
-              <span>32</span>
+              <span>{{ item.watchData }}</span>
             </span>
           </div>
           <div class="footer_right">
-            <span>by: ouguri</span>
-            <span>2022-11-14</span>
-          </div>
-        </div>
-      </div>
-      <div class="theme_box_content_search p-6 bg-slate-800">
-        <div class="text-3xl font-bold">关于治疗儿子不举的365种方案</div>
-        <div class="mt-5 text-2xl text-neutral-400">
-          2022的最后一天12.31号羊的，到医院检查出了肺炎， 今天才差不多好点了。
-          现在已经开播了，后续几天会恢复正常的直播+更新
-          大家千万照顾好自己，如果阳了该去医院还得去，别硬抗[给心心]
-        </div>
-        <div class="footer flex justify-between mt-5">
-          <div class="footer_left">
-            <span>
-              <i-ep-star style="font-size: 2rem; vertical-align: bottom" />
-              <span>20</span>
-            </span>
-            <span>
-              <i-ep-comment style="font-size: 2rem; vertical-align: bottom" />
-              <span>32</span>
-            </span>
-            <span>
-              <i-ep-comment style="font-size: 2rem; vertical-align: bottom" />
-              <span>32</span>
-            </span>
-          </div>
-          <div class="footer_right">
-            <span>by: ouguri</span>
+            <span>by: {{ item.username }}</span>
             <span>2022-11-14</span>
           </div>
         </div>
@@ -63,7 +38,22 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { onMounted, ref } from "vue";
+import { useRoute } from "vue-router";
+import { articleStore } from "@/stores/article";
+const useArticleStore = articleStore();
+
+const Route = useRoute();
+const showingData = ref<any>();
+
+onMounted(async () => {
+  const searchData = Route.query;
+  // const res = await useArticleStore.searchArticle(searchData);
+});
+
+const goTOAnArticle = (item: any) => {};
+</script>
 
 <style lang="scss" scoped>
 @import "@/assets/css/mixins.scss";

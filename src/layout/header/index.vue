@@ -9,8 +9,12 @@
         <h3>在这里，记录你的生活</h3>
         <h3>分享你的旅程 ......</h3>
         <div class="search_box">
-          <input placeholder="Search" type="text" />
-          <button class="search_box_icon">
+          <input
+            placeholder="Search"
+            type="text"
+            v-model="searchData.content"
+          />
+          <button @click="searchContent" class="search_box_icon">
             <i-ep-search style="font-size: 2.4rem" />
           </button>
         </div>
@@ -19,10 +23,35 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref, reactive } from "vue";
+import { useRouter } from "vue-router";
+import { articleStore } from "@/stores/article";
+
+const router = useRouter();
+const useArticleStore = articleStore();
+
+const searchData = reactive<any>({
+  content: "",
+  topic: "",
+});
+const searchContent = async () => {
+  console.log(searchData.content);
+  try {
+    const res = await useArticleStore.searchArticle(searchData);
+    if (res.status == 200) {
+      router.push({
+        name: "search",
+        query: res.data,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+</script>
 
 <style lang="scss" scoped>
-@import "@/assets/css/variable.scss";
 .header {
   min-height: 85rem;
   &_content {
@@ -48,7 +77,7 @@
       position: absolute;
       top: 30%;
       padding-left: 25rem;
-      color: $light_font_color;
+      color: rgb(253, 253, 253);
       text-shadow: $shadow_font;
       h2 {
         font-size: $h2_font_size;

@@ -40,7 +40,6 @@ import TitleMain from "../theme_component/title_main.vue";
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/css/variable.scss";
 .container {
   color: $light_font_color;
   &_box {
@@ -81,6 +80,7 @@ import TitleMain from "../theme_component/title_main.vue";
         font-size: 2rem;
         font-weight: 600;
         letter-spacing: 6px;
+        color: rgb(253, 253, 253);
         left: 50%;
         top: 50%;
         transform: translate(-50%, -48%);

@@ -20,4 +20,8 @@ export const createArticle = async (
 export const fetchArticle = async (
   searchdata: string
 ): Promise<AxiosResponse> =>
-  await requestUser({ url: `/${searchdata}`, method: "get" });
+  await requestUser({
+    url: `/articles/search`,
+    method: "get",
+    params: searchdata,
+  });

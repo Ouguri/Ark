@@ -15,7 +15,6 @@ import AuthorSay from "@/components/basic/main_page/author_saying.vue";
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/css/variable.scss";
 .content {
   width: $main_page_width;
   margin: 4rem auto;

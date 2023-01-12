@@ -52,6 +52,7 @@
 import { ref } from "vue";
 import { userStore } from "@/stores/user";
 import { useRouter } from "vue-router";
+import { removeToken } from "@/utils/savetoken";
 let username = ref<string>("ouguri");
 let password = ref<string>("500Oo4!ss");
 
@@ -59,13 +60,17 @@ const user_store = userStore();
 const router = useRouter();
 
 const userLogin = async () => {
+  removeToken();
   const res = await user_store.userSignIn({
     username: username.value,
     password: password.value,
   });
-  if (res.status == 0) {
+  console.log(res.data);
+
+  if (res.status == 200) {
     // 跳转路由到首页
     router.push("/");
+    console.log("登陆成功！");
   } else {
     username.value = password.value = "";
     console.log("用户名或密码错误");
@@ -74,7 +79,6 @@ const userLogin = async () => {
 </script>
 
 <style scoped lang="scss">
-@import "@/assets/css/variable.scss";
 :deep(.el-input__wrapper) {
   background-color: rgb(50, 53, 60);
   box-shadow: none;

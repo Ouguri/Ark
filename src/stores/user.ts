@@ -19,9 +19,14 @@ export const userStore = defineStore(Names.userStore, {
     // 登录
     async userSignIn(signin_data: User): Promise<AxiosResponse> {
       const result = await signIn(signin_data);
-      this.user.token = result.data;
-      saveToken(result.data);
-      this.user.username = signin_data.username;
+      const { accessToken, avatar, username, level, superAdmin } = result.data;
+      this.user.token = accessToken;
+      this.user.avatar = avatar;
+      this.user.username = username;
+      this.user.level = level;
+      this.user.superAdmin = superAdmin;
+
+      saveToken(accessToken);
       return result;
     },
 
