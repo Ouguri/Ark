@@ -7,7 +7,11 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    Article_left_part: typeof import('./src/components/basic/article_page/article_left_part.vue')['default']
+    Article_part: typeof import('./src/components/basic/article_page/article_part.vue')['default']
+    Article_right_part: typeof import('./src/components/basic/article_page/article_right_part.vue')['default']
     Author_saying: typeof import('./src/components/basic/main_page/author_saying.vue')['default']
+    Comment_part: typeof import('./src/components/basic/article_page/comment_part.vue')['default']
     Comment_show: typeof import('./src/components/basic/article_page/comment_show.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElIcon: typeof import('element-plus/es')['ElIcon']

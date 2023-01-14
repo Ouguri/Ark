@@ -7,7 +7,7 @@ const router = createRouter({
     {
       // 重定向
       path: "/",
-      redirect: "ark",
+      redirect: "/ark",
     },
     {
       // 本页是首页
@@ -17,6 +17,7 @@ const router = createRouter({
     },
     {
       path: "/login",
+      name: "login",
       component: () => import("@/components/core/Login.vue"),
     },
     {

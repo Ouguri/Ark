@@ -2,16 +2,16 @@
   <NavGloal class="nav_position_open"></NavGloal>
   <div class="theme_box">
     <h1 class="text-7xl">搜索结果</h1>
-    <div
-      class="theme_box_content mt-12 p-8"
-      v-for="item in showingData"
-      :key="item"
-      @click="goTOAnArticle(item)"
-    >
-      <div class="theme_box_content_search p-6 bg-slate-800">
+    <div class="theme_box_content mt-12 p-8">
+      <div
+        class="theme_box_content_search p-6 bg-slate-800"
+        v-for="item in showingData"
+        :key="item"
+        @click="goTOAnArticle(item)"
+      >
         <div class="text-3xl font-bold">{{ item.title }}</div>
         <div class="mt-5 text-2xl text-neutral-400">
-          {{ item.content }}
+          {{ item.content.slice(0, 100) }}...
         </div>
         <div class="footer flex justify-between mt-5">
           <div class="footer_left">
@@ -21,7 +21,7 @@
             </span>
             <span>
               <i-ep-comment style="font-size: 2rem; vertical-align: bottom" />
-              <span>{{ item.comment }}</span>
+              <span>{{ item.commentData }}</span>
             </span>
             <span>
               <i-ep-comment style="font-size: 2rem; vertical-align: bottom" />
@@ -29,8 +29,10 @@
             </span>
           </div>
           <div class="footer_right">
-            <span>by: {{ item.username }}</span>
-            <span>2022-11-14</span>
+            <span>by: {{ item.user.username }}</span>
+            <span>{{
+              useDateFormat(item.date, "YYYY-MM-DD HH:mm:ss").value
+            }}</span>
           </div>
         </div>
       </div>
@@ -40,19 +42,27 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { articleStore } from "@/stores/article";
+import { useDateFormat } from "@vueuse/shared";
+
 const useArticleStore = articleStore();
 
 const Route = useRoute();
+const Router = useRouter();
 const showingData = ref<any>();
 
 onMounted(async () => {
-  const searchData = Route.query;
-  // const res = await useArticleStore.searchArticle(searchData);
+  const res = await useArticleStore.searchArticle(Route.query as any);
+  showingData.value = res.data;
 });
 
-const goTOAnArticle = (item: any) => {};
+const goTOAnArticle = (item: any) => {
+  Router.push({
+    name: "article",
+    params: { id: item.id },
+  });
+};
 </script>
 
 <style lang="scss" scoped>

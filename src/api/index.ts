@@ -10,13 +10,13 @@ export const signIn = async (signin_data: any): Promise<AxiosResponse> =>
 export const signUp = async (signup_data: any): Promise<AxiosResponse> =>
   await requestUser({ url: `/user/signup`, method: "post", data: signup_data });
 
-// 新增文章接口 -- 晚点再连接，打几把游戏先
+// 新增文章接口
 export const createArticle = async (
   Article_data: Article
 ): Promise<AxiosResponse> =>
   await requestUser({ url: `/articles`, method: "post", data: Article_data });
 
-// 搜索获取文章接口 -- 后端还没写好，还不能搜索
+// 搜索获取文章接口
 export const fetchArticle = async (
   searchdata: string
 ): Promise<AxiosResponse> =>
@@ -25,3 +25,13 @@ export const fetchArticle = async (
     method: "get",
     params: searchdata,
   });
+
+// 进入文章的接口
+export const fetchAnArticle = async (id: string): Promise<AxiosResponse> => {
+  return await requestUser({ url: `/articles/getone?id=${id}`, method: "get" });
+  // return await requestUser({
+  //   url: `/articles/getone`,
+  //   params: id,
+  //   method: "get",
+  // });
+};

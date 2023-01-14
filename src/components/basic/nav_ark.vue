@@ -12,7 +12,7 @@
           <router-link to="">个人中心</router-link>
         </li>
         <li class="nav_ul_select">
-          <RouterLink to="markdown">写作</RouterLink>
+          <RouterLink to="/markdown">写作</RouterLink>
         </li>
         <li class="nav_ul_select">
           <router-link to="/">留言</router-link>

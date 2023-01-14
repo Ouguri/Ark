@@ -9,11 +9,7 @@
         <h3>在这里，记录你的生活</h3>
         <h3>分享你的旅程 ......</h3>
         <div class="search_box">
-          <input
-            placeholder="Search"
-            type="text"
-            v-model="searchData.content"
-          />
+          <input placeholder="Search" type="text" v-model="searchData" />
           <button @click="searchContent" class="search_box_icon">
             <i-ep-search style="font-size: 2.4rem" />
           </button>
@@ -26,28 +22,15 @@
 <script setup lang="ts">
 import { ref, reactive } from "vue";
 import { useRouter } from "vue-router";
-import { articleStore } from "@/stores/article";
 
 const router = useRouter();
-const useArticleStore = articleStore();
 
-const searchData = reactive<any>({
-  content: "",
-  topic: "",
-});
+const searchData = ref<string>("");
 const searchContent = async () => {
-  console.log(searchData.content);
-  try {
-    const res = await useArticleStore.searchArticle(searchData);
-    if (res.status == 200) {
-      router.push({
-        name: "search",
-        query: res.data,
-      });
-    }
-  } catch (error) {
-    console.log(error);
-  }
+  router.push({
+    name: "search",
+    query: { content: searchData.value },
+  });
 };
 </script>
 
