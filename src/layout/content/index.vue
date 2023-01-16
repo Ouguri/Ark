@@ -8,10 +8,10 @@
 </template>
 
 <script setup lang="ts">
-import WhatArk from "@/components/basic/main_page/what_is_ark.vue";
-import ShowUser from "@/components/basic/main_page/show_user.vue";
-import ShowWrite from "@/components/basic/main_page/show_write.vue";
-import AuthorSay from "@/components/basic/main_page/author_saying.vue";
+import WhatArk from "@/components/basic/main_page/main_first_part.vue";
+import ShowUser from "@/components/basic/main_page/main_second_part.vue";
+import ShowWrite from "@/components/basic/main_page/main_third_part.vue";
+import AuthorSay from "@/components/basic/main_page/main_fourth_part.vue";
 </script>
 
 <style lang="scss" scoped>

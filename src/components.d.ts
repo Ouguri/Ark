@@ -7,14 +7,14 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    Author_saying: typeof import('./components/basic/main_page/author_saying.vue')['default']
+    Author_saying: typeof import('./components/basic/main_page/main_fourth_part.vue')['default']
     ElIcon: typeof import('element-plus/es')['ElIcon']
     Login: typeof import('./components/core/Login.vue')['default']
     Nav_ark: typeof import('./components/basic/nav_ark.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    Show_user: typeof import('./components/basic/main_page/show_user.vue')['default']
-    Show_write: typeof import('./components/basic/main_page/show_write.vue')['default']
-    What_is_ark: typeof import('./components/basic/main_page/what_is_ark.vue')['default']
+    Show_user: typeof import('./components/basic/main_page/main_second_part.vue')['default']
+    Show_write: typeof import('./components/basic/main_page/main_third_part.vue')['default']
+    What_is_ark: typeof import('./components/basic/main_page/main_first_part.vue')['default']
   }
 }

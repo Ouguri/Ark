@@ -10,7 +10,7 @@
         <h3>分享你的旅程 ......</h3>
         <div class="search_box">
           <input placeholder="Search" type="text" v-model="searchData" />
-          <button @click="searchContent" class="search_box_icon">
+          <button @click.prevent="searchContent" class="search_box_icon">
             <i-ep-search style="font-size: 2.4rem" />
           </button>
         </div>
@@ -20,18 +20,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from "vue";
-import { useRouter } from "vue-router";
-
-const router = useRouter();
-
-const searchData = ref<string>("");
-const searchContent = async () => {
-  router.push({
-    name: "search",
-    query: { content: searchData.value },
-  });
-};
+import { useSearch } from "@/hook/searchData";
+const { searchContent, searchData } = useSearch();
 </script>
 
 <style lang="scss" scoped>

@@ -5,8 +5,8 @@
     <div class="theme_box_content mt-12 p-8">
       <div
         class="theme_box_content_search p-6 bg-slate-800"
-        v-for="item in showingData"
-        :key="item"
+        v-for="item in searchShow"
+        :key="item.articleID"
         @click="goTOAnArticle(item)"
       >
         <div class="text-3xl font-bold">{{ item.title }}</div>
@@ -41,28 +41,37 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch, onUpdated } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { articleStore } from "@/stores/article";
 import { useDateFormat } from "@vueuse/shared";
 
 const useArticleStore = articleStore();
 
-const Route = useRoute();
-const Router = useRouter();
-const showingData = ref<any>();
+const route = useRoute();
+const router = useRouter();
+const searchShow = ref<any>();
+const searchContent = ref<any>(route.query);
 
 onMounted(async () => {
-  const res = await useArticleStore.searchArticle(Route.query as any);
-  showingData.value = res.data;
+  searchContent.value = route.query;
+  const res = await useArticleStore.searchArticle(route.query as any);
+  searchShow.value = res.data;
 });
 
+onUpdated(() => (searchContent.value = route.query));
+
 const goTOAnArticle = (item: any) => {
-  Router.push({
+  router.push({
     name: "article",
     params: { id: item.id },
   });
 };
+
+watch(searchContent, async () => {
+  const res = await useArticleStore.searchArticle(route.query as any);
+  searchShow.value = res.data;
+});
 </script>
 
 <style lang="scss" scoped>

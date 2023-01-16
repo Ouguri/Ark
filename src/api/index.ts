@@ -29,9 +29,19 @@ export const fetchArticle = async (
 // 进入文章的接口
 export const fetchAnArticle = async (id: string): Promise<AxiosResponse> => {
   return await requestUser({ url: `/articles/getone?id=${id}`, method: "get" });
-  // return await requestUser({
-  //   url: `/articles/getone`,
-  //   params: id,
-  //   method: "get",
-  // });
+};
+
+// 评论接口
+export const createComment = async (data: any): Promise<AxiosResponse> => {
+  return await requestUser({ url: `/comment`, method: "post", data });
+};
+
+// 获取评论接口
+export const fetchComments = async (
+  articleID: string
+): Promise<AxiosResponse> => {
+  return await requestUser({
+    url: `/comment?articleID=${articleID}`,
+    method: "get",
+  });
 };

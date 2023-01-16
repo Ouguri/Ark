@@ -1,12 +1,23 @@
 <template>
   <NavGloal class="nav_position_open"></NavGloal>
   <div class="container_box">
-    <AriclePart></AriclePart>
+    <Suspense>
+      <template #default>
+        <AriclePart></AriclePart>
+      </template>
+      <template #fallback>
+        <div>loading</div>
+      </template>
+    </Suspense>
   </div>
 </template>
 
 <script setup lang="ts">
-import AriclePart from "@/components/basic/article_page/article_part.vue";
+import { defineAsyncComponent } from "vue";
+
+const AriclePart = defineAsyncComponent(
+  () => import("@/components/basic/article_page/article_part.vue")
+);
 </script>
 
 <style lang="scss" scoped>

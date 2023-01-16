@@ -3,3 +3,28 @@
     width: $main_page_width;
     margin: 2rem auto;
 }
+
+@mixin btn_basic {
+    transition: all 0.4s;
+    position: relative;
+    background: linear-gradient(to right,
+            rgb(10, 182, 255),
+            rgb(41, 123, 255),
+            rgb(102, 209, 255),
+            rgb(94, 152, 245));
+    background-size: 300%;
+    border: none;
+    border-radius: 2px;
+    color: #fff;
+    cursor: pointer;
+}
+
+@mixin input_box {
+    background-color: rgb(50, 53, 60);
+    box-shadow: none;
+    border-radius: 3px;
+    border-bottom: 2px solid transparent;
+    position: relative;
+    transition: all 0.3s;
+    margin-right: 1rem;
+}

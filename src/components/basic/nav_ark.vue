@@ -19,8 +19,8 @@
         </li>
         <li class="nav_ul_select">
           <div class="search_box">
-            <input type="text" />
-            <button class="search_box_icon">
+            <input type="text" v-model="searchData" />
+            <button class="search_box_icon" @click="searchContent">
               <i-ep-search style="font-size: 1.5rem" />
             </button>
             <div class="overlay"></div>
@@ -42,13 +42,12 @@
 
 <script setup lang="ts">
 import { useTheme } from "@/hook/themeChange";
-import { themeStore } from "@/stores/theme";
+import { useSearch } from "@/hook/searchData";
 import { setTheme, getTheme } from "@/utils/saveTheme";
 import { onMounted } from "vue";
 
-const useThemeStore = themeStore();
-
 const { isDarkTheme, changeTheme } = useTheme();
+const { searchData, searchContent } = useSearch();
 
 onMounted(() => {
   const themeData = getTheme();

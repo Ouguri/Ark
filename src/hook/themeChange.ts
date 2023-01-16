@@ -18,6 +18,9 @@ export const useTheme = () => {
       document
         .getElementsByTagName("body")[0]
         .style.setProperty("--article-font-color", "rgb(23, 23, 25)");
+      document
+        .getElementsByTagName("body")[0]
+        .style.setProperty("--article-card-color", "rgb(253, 253, 253)");
     } else {
       document
         .getElementsByTagName("body")[0]
@@ -31,6 +34,9 @@ export const useTheme = () => {
       document
         .getElementsByTagName("body")[0]
         .style.setProperty("--article-font-color", "rgb(233, 223, 204)");
+      document
+        .getElementsByTagName("body")[0]
+        .style.setProperty("--article-card-color", "rgb(18, 15, 25)");
     }
   };
 

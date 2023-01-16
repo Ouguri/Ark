@@ -46,71 +46,75 @@
     </div>
     <div class="article_box_right">
       <div class="article_box_right_articlepart">
-        <h1>{{ articleData.title }}</h1>
+        <h1>{{ article_content.title }}</h1>
         <div class="article_box_right_author">
           <router-link to="/">
             <HeaderImg size="6.3rem"></HeaderImg>
           </router-link>
           <div class="article_box_right_author_data">
             <router-link class="author_link" to="/">
-              <span>{{ articleData.username }}&nbsp;</span>
-              <span>Lv: {{ articleData.level }}</span>
+              <span>{{ article_content.user?.username }}&nbsp;</span>
+              <span>Lv: {{ article_content.user?.level }}</span>
             </router-link>
             <div class="author_watch">
-              <span>{{ articleData.date }}</span>
+              <span>发布时间：{{ useArticleStore.formatDate }}</span>
               <span> -- </span>
-              <span>{{ articleData.commentData }}</span>
+              <span>浏览量：{{ article_content.commentData }}</span>
             </div>
           </div>
         </div>
         <v-md-preview
-          :text="articleData.content"
+          :text="article_content.content"
           ref="preview"
           class="article_box_right_text"
         ></v-md-preview>
       </div>
-      <ArticleComment class="article_box_right_commentpart"></ArticleComment>
+      <Suspense>
+        <template #default>
+          <ArticleComment
+            :id="article_content.id"
+            :topic_type="article_content.topic"
+            class="article_box_right_commentpart"
+          ></ArticleComment>
+        </template>
+        <template #fallback>
+          <div>loading...</div>
+        </template>
+      </Suspense>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { articleStore } from "@/stores/article";
+import { useCommentStore } from "@/stores/comment";
 import { useRoute } from "vue-router";
-import { onMounted, ref, reactive, nextTick } from "vue";
+import { onMounted, ref, reactive, nextTick, defineAsyncComponent } from "vue";
 import HeaderImg from "@/components/basic/theme_component/header_img.vue";
-import ArticleComment from "@/components/basic/article_page/comment_part.vue";
-import type { ANARTICLE } from "@/interface/index";
+import { storeToRefs } from "pinia";
 
+const ArticleComment = defineAsyncComponent(
+  () => import("@/components/basic/article_page/comment_part.vue")
+);
+
+const commentStore = useCommentStore();
 const useArticleStore = articleStore();
 const route = useRoute();
-
-const articleData = reactive<ANARTICLE>({});
 
 const titles = reactive<any>([]);
 const preview = ref();
 
+const id = route.params.id as string;
+
+await Promise.all([
+  useArticleStore.enterArticle(id),
+  commentStore.getCommentList(id),
+]);
+
+const { article_content } = storeToRefs(useArticleStore);
+
 onMounted(async () => {
-  // 测试用，之后换成接口请求
-  const id = route.params.id as string;
-
-  const article_res = await useArticleStore.enterArticle(id);
-
-  const { content, goods, commentData, title, topic, user, date } = article_res;
-
-  articleData.content = content;
-  articleData.goods = goods;
-  articleData.avatar = user.avatar;
-  articleData.commentData = commentData;
-  articleData.title = title;
-  articleData.topic = topic;
-  articleData.username = user.username;
-  articleData.level = user.level;
-  articleData.vip = user.vip;
-  articleData.date = date;
-
   await nextTick();
-
   // 配置导航栏
   const anchors = preview.value.$el.querySelectorAll("h1,h2,h3,h4,h5,h6");
 
@@ -137,6 +141,7 @@ const handleAnchorClick = (lineIndex: number): void => {
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/css/mixins.scss";
 .article_box {
   display: flex;
   &_left {
@@ -152,7 +157,6 @@ const handleAnchorClick = (lineIndex: number): void => {
         height: 18rem;
         margin-bottom: 1rem;
         overflow: hidden;
-        border: 1px solid $article_border_dark;
         .card {
           display: flex;
           &_img {
@@ -188,7 +192,6 @@ const handleAnchorClick = (lineIndex: number): void => {
         border-radius: 3px;
         background-color: $article_card_bgc_color;
         padding: 2rem;
-        border: 1px solid $article_border_dark;
 
         a {
           cursor: pointer;
@@ -219,13 +222,11 @@ const handleAnchorClick = (lineIndex: number): void => {
     &_articlepart {
       border-radius: 3px;
       background-color: $article_card_bgc_color;
-      border: 1px solid $article_border_dark;
     }
 
     &_commentpart {
       border-radius: 3px;
       background-color: $article_card_bgc_color;
-      border: 1px solid $article_border_dark;
       margin-top: 1rem;
       padding: 2rem 3rem;
     }
