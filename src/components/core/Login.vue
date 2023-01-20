@@ -79,13 +79,9 @@ const userLogin = async () => {
 </script>
 
 <style scoped lang="scss">
+@import "@/assets/css/mixins.scss";
 :deep(.el-input__wrapper) {
-  background-color: rgb(50, 53, 60);
-  box-shadow: none;
-  border-radius: 1px;
-  border-bottom: 2px solid transparent;
-  position: relative;
-  transition: all 0.3s;
+  @include input_basis;
   &:focus-within {
     border-bottom: 2px solid rgb(223, 223, 223);
   }

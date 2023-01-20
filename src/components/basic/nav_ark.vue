@@ -9,7 +9,7 @@
           <router-link to="/search">精选</router-link>
         </li>
         <li class="nav_ul_select">
-          <router-link to="">个人中心</router-link>
+          <router-link to="/platform">个人中心</router-link>
         </li>
         <li class="nav_ul_select">
           <RouterLink to="/markdown">写作</RouterLink>

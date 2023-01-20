@@ -13,3 +13,10 @@ export interface ANARTICLE {
     vip: string;
   };
 }
+
+export interface SEARCHARG {
+  content?: string;
+  topic?: string;
+  take: number;
+  skip: number;
+}

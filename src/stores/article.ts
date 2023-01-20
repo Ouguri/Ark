@@ -1,14 +1,21 @@
 // 文章处理仓库
 import { defineStore } from "pinia";
 import { Names } from "./store_name";
-import { createArticle, fetchArticle, fetchAnArticle } from "@/api";
+import {
+  createArticle,
+  fetchArticle,
+  fetchAnArticle,
+  deleteArticle,
+  updateArticle,
+} from "@/api";
 import type { Article } from "@/libcommon/index";
-import type { ANARTICLE } from "@/interface";
+import type { ANARTICLE, SEARCHARG } from "@/interface";
 import { useDateFormat } from "@vueuse/shared";
 
 export const articleStore = defineStore(Names.articleStore, {
   state: () => ({
     article_content: <ANARTICLE>{},
+    update: <boolean>false,
   }),
 
   getters: {
@@ -21,15 +28,20 @@ export const articleStore = defineStore(Names.articleStore, {
   actions: {
     async saveArticle(articleData: Article) {
       const { content, title, topic = "nestjs" } = articleData;
-      // 发起 axios 请求传到后端
       const res = await createArticle({ content, title, topic });
       return res;
     },
-
-    async searchArticle(searchdata: string): Promise<any> {
+    async searchArticle(searchdata: SEARCHARG): Promise<any> {
       const res = await fetchArticle(searchdata);
-
       return res;
+    },
+
+    async updateArticle(updateData: any, id: string) {
+      await updateArticle(updateData, id);
+    },
+
+    async deleteArticle(id: string) {
+      await deleteArticle(id);
     },
 
     async enterArticle(id: string): Promise<void> {

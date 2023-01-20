@@ -4,7 +4,7 @@
       <img :src="props.img" class="author_img" alt="" />
     </slot>
     <div class="author_caption">
-      <slot name="name"> Ouguri </slot>
+      <slot name="name"> welcome </slot>
     </div>
   </figure>
 </template>
@@ -16,12 +16,16 @@ interface Props {
   img?: string;
   name?: string;
   size?: string;
+  tranX?: string;
+  textTranx?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   size: "6.3rem",
   name: "Ouguri",
   img: "/nat-8.jpg",
+  tranX: "-1.7rem",
+  textTranx: "-3.2rem",
 });
 const size = ref<string>(props.size);
 </script>
@@ -35,14 +39,15 @@ const size = ref<string>(props.size);
   -webkit-clip-path: circle(50% at 50% 50%);
 
   // 谨记只使用 translate 增加圆与文字之间的间距
-  transform: translateX(-3.2rem);
+  transform: translateX(v-bind(textTranx));
   position: relative;
   cursor: pointer;
 }
 
 .author_img {
   height: 100%;
-  transform: translateX(-1.7rem) scale(1.4); // 调整头像居中, 并让它大一点方便之后缩小
+  // 1.7rem
+  transform: translateX(v-bind(tranX)) scale(1.4); // 调整头像居中, 并让它大一点方便之后缩小
   transition: all 0.5s;
   backface-visibility: hidden;
 }
@@ -68,7 +73,7 @@ const size = ref<string>(props.size);
 }
 
 .author_shape:hover .author_img {
-  transform: translateX(-1.7rem) scale(1);
+  transform: translateX(v-bind(tranX)) scale(1);
   // 过滤器让图片模糊
   // brightness: 亮度 小于 100 暗 大于 100 亮
   filter: blur(3px) brightness(80%);

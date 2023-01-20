@@ -55,8 +55,16 @@ const searchContent = ref<any>(route.query);
 
 onMounted(async () => {
   searchContent.value = route.query;
-  const res = await useArticleStore.searchArticle(route.query as any);
-  searchShow.value = res.data;
+
+  console.log(route.query);
+
+  const res = await useArticleStore.searchArticle({
+    content: searchContent.value.content,
+    take: 6,
+    skip: 1,
+  });
+
+  searchShow.value = res.data[0];
 });
 
 onUpdated(() => (searchContent.value = route.query));
@@ -69,8 +77,12 @@ const goTOAnArticle = (item: any) => {
 };
 
 watch(searchContent, async () => {
-  const res = await useArticleStore.searchArticle(route.query as any);
-  searchShow.value = res.data;
+  const res = await useArticleStore.searchArticle({
+    content: searchContent.value.content,
+    take: 6,
+    skip: 1,
+  });
+  searchShow.value = res.data[0];
 });
 </script>
 

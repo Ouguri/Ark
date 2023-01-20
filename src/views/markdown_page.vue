@@ -10,15 +10,20 @@
     </div>
     <v-md-editor v-model="articleData.content" height="89%"></v-md-editor>
     <div class="py-1 px-6 float-right">
-      <el-button type="primary" @click="saveArticle">保存并发布</el-button>
-      <el-button>保存至个人</el-button>
-      <router-link to="/"><el-button>取消</el-button></router-link>
+      <el-button v-show="!isShow">保存至个人</el-button>
+      <el-button v-show="!isShow" type="primary" @click="saveArticle"
+        >保存</el-button
+      >
+      <el-button v-show="isShow" type="primary" @click="saveUpdate"
+        >保存更新</el-button
+      >
+      <el-button @click="cancelEdit">取消</el-button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive } from "vue";
+import { reactive, onMounted, ref } from "vue";
 import { articleStore } from "@/stores/article";
 import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
@@ -26,10 +31,24 @@ import type { Article } from "@/libcommon";
 
 const router = useRouter();
 const useArticleStore = articleStore();
+const isShow = ref<boolean>(false);
 
 const articleData = reactive<Article>({
   content: "请输入文章的内容...",
-  title: "123",
+  title: "",
+  topic: "normal",
+});
+
+onMounted(async () => {
+  isShow.value = await useArticleStore.update;
+  if (isShow.value) {
+    articleData.content = useArticleStore.article_content.content;
+    articleData.title = useArticleStore.article_content.title;
+    articleData.topic = useArticleStore.article_content.topic;
+  } else {
+    articleData.content = "请输入文章的内容...";
+    articleData.title = "";
+  }
 });
 
 const saveArticle = async () => {
@@ -45,6 +64,19 @@ const saveArticle = async () => {
   } else {
     ElMessage({ message: "保存失败，请稍后重试！", type: "error" });
   }
+};
+
+const saveUpdate = async () => {
+  const id = useArticleStore.article_content.id;
+  await useArticleStore.updateArticle(articleData, id);
+  router.push({
+    name: "articles",
+  });
+};
+
+const cancelEdit = () => {
+  router.go(-1);
+  useArticleStore.update = false;
 };
 </script>
 

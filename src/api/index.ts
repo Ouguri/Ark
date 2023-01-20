@@ -1,6 +1,7 @@
 import type { AxiosResponse } from "axios";
 import requestUser from "./request_user";
 import type { Article } from "@/libcommon/index";
+import type { SEARCHARG } from "@/interface";
 
 // 登录接口
 export const signIn = async (signin_data: any): Promise<AxiosResponse> =>
@@ -18,12 +19,28 @@ export const createArticle = async (
 
 // 搜索获取文章接口
 export const fetchArticle = async (
-  searchdata: string
+  searchdata: SEARCHARG
 ): Promise<AxiosResponse> =>
   await requestUser({
     url: `/articles/search`,
     method: "get",
     params: searchdata,
+  });
+
+// 更新文章接口
+export const updateArticle = async (updateData: any, id: string) => {
+  await requestUser({
+    url: `/articles?id=${id}`,
+    method: "patch",
+    data: updateData,
+  });
+};
+
+// 删除文章接口
+export const deleteArticle = async (id: string) =>
+  await requestUser({
+    url: `/articles/${id}`,
+    method: "delete",
   });
 
 // 进入文章的接口

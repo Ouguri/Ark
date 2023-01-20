@@ -10,38 +10,53 @@ const router = createRouter({
       redirect: "/ark",
     },
     {
-      // 本页是首页
+      // 首页
       component: Layout,
       path: "/ark",
       name: "ark",
     },
+    // 登录页
     {
       path: "/login",
       name: "login",
       component: () => import("@/components/core/Login.vue"),
     },
+    // 写文章
     {
       path: "/markdown",
       name: "markdown",
       component: () => import("@/views/markdown_page.vue"),
     },
+    // 文章页
     {
       path: "/article/:id",
       name: "article",
       component: () => import("@/views/article_show.vue"),
     },
+    // 搜索页
     {
       path: "/search",
       name: "search",
       component: () => import("@/views/search_show.vue"),
     },
-    // {
-    //   path: '/personal:id',
-    //   name: 'personalcenter',
-    //   component: () => import()
-    //   children: [],
-    // }
-
+    // 个人中心
+    {
+      path: "/platform",
+      name: "personalCenter",
+      component: () => import("@/views/personal_center.vue"),
+      children: [
+        {
+          path: "",
+          name: "personindex",
+          component: () => import("@/views/manager/manager_index.vue"),
+        },
+        {
+          path: "articles",
+          name: "articles",
+          component: () => import("@/views/manager/manager_article.vue"),
+        },
+      ],
+    },
     // 404
     {
       path: "/:pathMatch(.*)*",

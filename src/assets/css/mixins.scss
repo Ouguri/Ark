@@ -28,3 +28,18 @@
     transition: all 0.3s;
     margin-right: 1rem;
 }
+
+@mixin nav {
+    position: relative;
+    background-color: $background_color_dark !important;
+    box-shadow: 0px 0.2rem 1.9rem rgb(0, 0, 0);
+}
+
+@mixin input_basis {
+    background-color: rgb(50, 53, 60);
+    box-shadow: none;
+    border-radius: 1px;
+    border-bottom: 2px solid transparent;
+    position: relative;
+    transition: all 0.3s;
+}
