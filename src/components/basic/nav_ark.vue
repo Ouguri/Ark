@@ -32,8 +32,8 @@
       <span><el-switch v-model="isDarkTheme" @change="history_theme" /></span>
       <span v-if="exit">EXIT LINK</span>
       <span v-else><RouterLink to="/login">JOIN US</RouterLink></span>
-      <HeaderImg size="4.3rem" tran-x="-1rem" text-tranx="1rem">
-        <template #yourName> O </template>
+      <HeaderImg size="4.3rem" tran-x="-1rem" text-tranx="1rem" :img="avatar">
+        <template #yourName> &nbsp; </template>
       </HeaderImg>
     </div>
   </nav>
@@ -44,16 +44,19 @@ import { useTheme } from "@/hook/themeChange";
 import { useSearch } from "@/hook/searchData";
 import { setTheme, getTheme } from "@/utils/saveTheme";
 import { onMounted, ref } from "vue";
+import { getUserAvater } from "@/hook/getAvatar";
 import HeaderImg from "@/components/basic/theme_component/header_img.vue";
 
 const { isDarkTheme, changeTheme } = useTheme();
 const { searchData, searchContent } = useSearch();
+const { avatar, avatarGetStart } = getUserAvater();
 
 const exit = ref<boolean>(false);
 
 onMounted(() => {
   const themeData = getTheme();
   const change = !themeData;
+  avatarGetStart();
   if (themeData) isDarkTheme.value = change;
   changeTheme();
 });

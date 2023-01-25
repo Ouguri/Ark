@@ -40,8 +40,12 @@
     <div class="comment_box" v-for="item in commentList" :key="item.id">
       <!-- headerImg -->
       <div class="comment_box_avatar">
-        <HeaderImg class="card_avatar" size="4.3rem">
-          <template #name> {{ item.user?.username }} </template>
+        <HeaderImg
+          class="card_avatar"
+          size="4.3rem"
+          :img="`http://localhost:3000/avatar/${item.user?.avatar}`"
+        >
+          <template #yourName> {{ item.user?.username[0] }} </template>
         </HeaderImg>
       </div>
       <!-- content -->

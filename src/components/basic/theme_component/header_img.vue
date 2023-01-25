@@ -1,6 +1,6 @@
 <template>
   <figure class="author_shape">
-    <img :src="avatar" class="author_img" alt="" />
+    <img :src="props.img" class="author_img" alt="" />
     <div class="author_caption">
       <slot name="yourName"> welcome </slot>
     </div>
@@ -8,8 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
-import { userStore } from "@/stores/user";
+import { ref } from "vue";
 
 interface Props {
   img?: string;
@@ -25,15 +24,6 @@ const props = withDefaults(defineProps<Props>(), {
   textTranx: "-3.2rem",
 });
 const size = ref<string>(props.size);
-
-const useUserStore = userStore();
-const avatar = ref<string>("");
-
-onMounted(() => {
-  avatar.value = `http://localhost:3000/avatar/${
-    useUserStore.user.avatar as string
-  }`;
-});
 </script>
 
 <style lang="scss" scoped>

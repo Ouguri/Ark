@@ -3,13 +3,17 @@
     <div class="article_box_left">
       <div class="article_box_left_link">
         <div class="article_box_left_link_author">
-          <router-link class="card" to="/">
-            <HeaderImg class="card_img" size="7.3rem">
-              <template #name> Ouguri </template>
+          <router-link class="card" to="/platform">
+            <HeaderImg
+              class="card_img"
+              size="7.3rem"
+              :img="`http://localhost:3000/avatar/${useUserStore.user.avatar}`"
+            >
+              <template #yourName> {{ useUserStore.user.username }} </template>
             </HeaderImg>
             <div class="card_data">
               <span style="font-size: 3em; margin: 0 0 1rem -2rem"
-                >Ouguri
+                >{{ useUserStore.user.username }}
               </span>
               <span style="font-size: 1.5em; margin: 0 0 0 -1.6rem">Lv: 1</span>
             </div>
@@ -49,7 +53,10 @@
         <h1>{{ article_content.title }}</h1>
         <div class="article_box_right_author">
           <router-link to="/">
-            <HeaderImg size="6.3rem"></HeaderImg>
+            <HeaderImg
+              size="6.3rem"
+              :img="`http://localhost:3000/avatar/${article_content.user.avatar}`"
+            ></HeaderImg>
           </router-link>
           <div class="article_box_right_author_data">
             <router-link class="author_link" to="/">
@@ -89,6 +96,7 @@
 <script setup lang="ts">
 import { articleStore } from "@/stores/article";
 import { useCommentStore } from "@/stores/comment";
+import { userStore } from "@/stores/user";
 import { useRoute } from "vue-router";
 import { onMounted, ref, reactive, nextTick, defineAsyncComponent } from "vue";
 import HeaderImg from "@/components/basic/theme_component/header_img.vue";
@@ -100,6 +108,7 @@ const ArticleComment = defineAsyncComponent(
 
 const commentStore = useCommentStore();
 const useArticleStore = articleStore();
+const useUserStore = userStore();
 const route = useRoute();
 
 const titles = reactive<any>([]);

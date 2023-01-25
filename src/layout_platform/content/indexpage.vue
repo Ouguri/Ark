@@ -6,9 +6,10 @@
         tran-x="-5.6rem"
         text-tranx="0"
         @click="centerDialogVisible = true"
+        :img="avatar"
       >
       </HeaderImg>
-      <h2 class="text-3xl my-1">Ouguri</h2>
+      <h2 class="text-3xl my-1">{{ useUserStore.user.username }}</h2>
       <div class="mt-2 w-full flex justify-center">
         <button class="menu-btn edit mr-2">编辑资料</button>
         <button class="menu-btn follow">关注</button>
@@ -77,18 +78,18 @@ import HeaderImg from "@/components/basic/theme_component/header_img.vue";
 import HeaderChange from "@/components/basic/theme_component/header_change.vue";
 import { ref, onMounted, inject } from "vue";
 import { userStore } from "@/stores/user";
+import { getUserAvater } from "@/hook/getAvatar";
+
+const useUserStore = userStore();
 
 const percentage = ref(20);
 const centerDialogVisible = ref(false);
-const useUserStore = userStore();
-const avatar = ref<string>("");
+const { avatar, avatarGetStart } = getUserAvater();
 
 const updateData = inject<Function>("reload") as Function;
 
 onMounted(() => {
-  avatar.value = `http://localhost:3000/avatar/${
-    useUserStore.user.avatar as string
-  }`;
+  avatarGetStart();
 });
 
 const avatarFinish = () => {

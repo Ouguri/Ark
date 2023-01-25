@@ -1,7 +1,7 @@
 <template>
   <el-upload
     class="avatar-uploader"
-    action="http://localhost:3000/api/v1/user/avatar/ouguri"
+    :action="`http://localhost:3000/api/v1/user/avatar/${useUserStore.user.username}`"
     :show-file-list="false"
     :on-success="handleAvatarSuccess"
     :before-upload="beforeAvatarUpload"
