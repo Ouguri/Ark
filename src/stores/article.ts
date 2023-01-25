@@ -5,6 +5,7 @@ import {
   createArticle,
   fetchArticle,
   fetchAnArticle,
+  fetchPersonalArticle,
   deleteArticle,
   updateArticle,
 } from "@/api";
@@ -31,8 +32,14 @@ export const articleStore = defineStore(Names.articleStore, {
       const res = await createArticle({ content, title, topic });
       return res;
     },
+
     async searchArticle(searchdata: SEARCHARG): Promise<any> {
       const res = await fetchArticle(searchdata);
+      return res;
+    },
+
+    async searchPersonalArticle(searchdata: SEARCHARG): Promise<any> {
+      const res = await fetchPersonalArticle(searchdata);
       return res;
     },
 

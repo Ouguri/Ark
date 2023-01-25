@@ -11,6 +11,7 @@ export interface ANARTICLE {
     username: string;
     level: number;
     vip: string;
+    id: string;
   };
 }
 

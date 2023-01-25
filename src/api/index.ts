@@ -27,6 +27,16 @@ export const fetchArticle = async (
     params: searchdata,
   });
 
+// 搜索当前用户文章
+export const fetchPersonalArticle = async (
+  searchdata: SEARCHARG
+): Promise<AxiosResponse> =>
+  await requestUser({
+    url: `/articles/personsearch`,
+    method: "get",
+    params: searchdata,
+  });
+
 // 更新文章接口
 export const updateArticle = async (updateData: any, id: string) => {
   await requestUser({
@@ -60,5 +70,13 @@ export const fetchComments = async (
   return await requestUser({
     url: `/comment?articleID=${articleID}`,
     method: "get",
+  });
+};
+
+export const deleteComments = async (data: any) => {
+  return await requestUser({
+    url: `/comment`,
+    method: "delete",
+    data,
   });
 };

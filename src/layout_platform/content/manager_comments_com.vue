@@ -2,13 +2,13 @@
   <div class="manager_ark relative">
     <div class="p-8">
       <div class="flex justify-between">
-        <h2 class="text-4xl mb-8">文章管理</h2>
+        <h2 class="text-4xl mb-8">评论管理</h2>
         <div class="flex relative bottom-1">
           <div class="relative">
             <el-input
               style="width: 43rem"
               v-model="searchData"
-              placeholder="想找点什么..."
+              placeholder="搜索对应文章评论..."
             />
             <button class="search_box_icon" @click="searchContent()">
               <i-ep-search style="font-size: 1.8rem" />
@@ -76,7 +76,7 @@
         </div>
       </div>
     </div>
-    <!-- 每页7个 -->
+    <!-- 每页6个 -->
     <div class="absolute right-0">
       <el-pagination
         :page-size="6"
@@ -103,11 +103,11 @@ const selectValue = ref<number>(0);
 const options = [
   {
     value: 0,
-    label: "按内容",
+    label: "本人",
   },
   {
     value: 1,
-    label: "按主题",
+    label: "文章",
   },
 ];
 

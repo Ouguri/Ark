@@ -1,5 +1,6 @@
 import { createApp } from "vue";
 import { createPinia } from "pinia";
+import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import App from "./App.vue";
 import router from "./router";
 import NavGloal from "./components/basic/nav_ark.vue";
@@ -34,7 +35,9 @@ VMdPreview.use(githubTheme, {
 });
 app.use(VMdPreview);
 app.use(VueMarkdownEditor);
-app.use(createPinia());
+const pinia = createPinia();
+pinia.use(piniaPluginPersistedstate);
+app.use(pinia);
 app.use(router);
 
 app.mount("#app");

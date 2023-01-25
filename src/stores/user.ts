@@ -13,20 +13,25 @@ export const userStore = defineStore(Names.userStore, {
     };
   },
 
+  persist: true,
+
   getters: {},
 
   actions: {
     // 登录
     async userSignIn(signin_data: User): Promise<AxiosResponse> {
       const result = await signIn(signin_data);
-      const { accessToken, avatar, username, level, superAdmin } = result.data;
-      this.user.token = accessToken;
+      const { avatar, username, level, superAdmin, id } = result.data.user;
+      this.user.token = result.data.accessToken;
       this.user.avatar = avatar;
       this.user.username = username;
       this.user.level = level;
       this.user.superAdmin = superAdmin;
+      this.user.id = id;
 
-      saveToken(accessToken);
+      console.log(id);
+
+      saveToken(result.data.accessToken);
       return result;
     },
 

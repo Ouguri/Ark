@@ -1,7 +1,13 @@
 <template>
   <div class="flex">
     <div class="flex flex-col" style="width: 35rem; margin-right: 4rem">
-      <HeaderImg size="28rem" tran-x="-5.6rem" text-tranx="0"></HeaderImg>
+      <HeaderImg
+        size="28rem"
+        tran-x="-5.6rem"
+        text-tranx="0"
+        @click="centerDialogVisible = true"
+      >
+      </HeaderImg>
       <h2 class="text-3xl my-1">Ouguri</h2>
       <div class="mt-2 w-full flex justify-center">
         <button class="menu-btn edit mr-2">编辑资料</button>
@@ -47,13 +53,48 @@
       </div>
     </div>
   </div>
+
+  <el-dialog
+    v-model="centerDialogVisible"
+    title="更换头像"
+    width="30%"
+    align-center
+  >
+    <div class="flex justify-center">
+      <HeaderChange></HeaderChange>
+    </div>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="centerDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="avatarFinish"> 确定 </el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <script setup lang="ts">
 import HeaderImg from "@/components/basic/theme_component/header_img.vue";
-import { ref } from "vue";
+import HeaderChange from "@/components/basic/theme_component/header_change.vue";
+import { ref, onMounted, inject } from "vue";
+import { userStore } from "@/stores/user";
 
 const percentage = ref(20);
+const centerDialogVisible = ref(false);
+const useUserStore = userStore();
+const avatar = ref<string>("");
+
+const updateData = inject<Function>("reload") as Function;
+
+onMounted(() => {
+  avatar.value = `http://localhost:3000/avatar/${
+    useUserStore.user.avatar as string
+  }`;
+});
+
+const avatarFinish = () => {
+  centerDialogVisible.value = false;
+  updateData();
+};
 </script>
 
 <style lang="scss" scoped>

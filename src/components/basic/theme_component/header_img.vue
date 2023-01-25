@@ -1,20 +1,18 @@
 <template>
   <figure class="author_shape">
-    <slot name="h_img">
-      <img :src="props.img" class="author_img" alt="" />
-    </slot>
+    <img :src="avatar" class="author_img" alt="" />
     <div class="author_caption">
-      <slot name="name"> welcome </slot>
+      <slot name="yourName"> welcome </slot>
     </div>
   </figure>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import { userStore } from "@/stores/user";
 
 interface Props {
   img?: string;
-  name?: string;
   size?: string;
   tranX?: string;
   textTranx?: string;
@@ -22,12 +20,20 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   size: "6.3rem",
-  name: "Ouguri",
   img: "/nat-8.jpg",
   tranX: "-1.7rem",
   textTranx: "-3.2rem",
 });
 const size = ref<string>(props.size);
+
+const useUserStore = userStore();
+const avatar = ref<string>("");
+
+onMounted(() => {
+  avatar.value = `http://localhost:3000/avatar/${
+    useUserStore.user.avatar as string
+  }`;
+});
 </script>
 
 <style lang="scss" scoped>
@@ -42,6 +48,7 @@ const size = ref<string>(props.size);
   transform: translateX(v-bind(textTranx));
   position: relative;
   cursor: pointer;
+  overflow: hidden;
 }
 
 .author_img {

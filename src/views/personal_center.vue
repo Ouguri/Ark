@@ -36,8 +36,10 @@
             </el-menu-item-group>
           </el-sub-menu>
           <el-menu-item index="3">
-            <el-icon><document /></el-icon>
-            <span>评论管理</span>
+            <router-link :to="{ name: 'comments' }">
+              <el-icon><document /></el-icon>
+              <span>评论管理</span>
+            </router-link>
           </el-menu-item>
         </el-menu>
       </el-col>

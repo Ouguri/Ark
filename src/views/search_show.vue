@@ -56,8 +56,6 @@ const searchContent = ref<any>(route.query);
 onMounted(async () => {
   searchContent.value = route.query;
 
-  console.log(route.query);
-
   const res = await useArticleStore.searchArticle({
     content: searchContent.value.content,
     take: 6,

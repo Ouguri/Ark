@@ -1,6 +1,6 @@
 <template>
   <div class="comment">
-    <h1 style="margin-bottom: 2rem">评论</h1>
+    <h1 class="mb-8">评论</h1>
     <div>
       <div class="comment_input">
         <el-input
@@ -19,8 +19,20 @@
     <div class="comment_title">
       <h1>全部评论</h1>
       <div class="comment_title-btn">
-        <button>最新</button>
-        <button>最热</button>
+        <el-button
+          color="rgb(194,54,22)"
+          :dark="true"
+          @click="deleteCommentSelect"
+          class="btn-sm"
+          v-if="managerComment"
+          >删除评论</el-button
+        >
+        <el-button color="rgb(41, 123, 255)" :dark="true" plain class="btn-sm"
+          >最新</el-button
+        >
+        <el-button color="rgb(41, 123, 255)" :dark="true" plain class="btn-sm"
+          >最热</el-button
+        >
       </div>
     </div>
     <hr />
@@ -54,22 +66,33 @@
           </span>
         </div>
       </div>
+
+      <div class="comment_box_select">
+        <el-checkbox @change="ifClick($event, item.id)">&nbsp;</el-checkbox>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import HeaderImg from "@/components/basic/theme_component/header_img.vue";
-import { ref, inject } from "vue";
+import { ref, reactive, toRaw, inject, onMounted } from "vue";
 import { useCommentStore } from "@/stores/comment";
+import { userStore } from "@/stores/user";
 import { ElMessage } from "element-plus";
 import { storeToRefs } from "pinia";
 
 const commentStore = useCommentStore();
+const useUserStore = userStore();
 
 const commentContent = ref<string>("");
 
+const managerComment = ref<boolean>(false);
+
+const commentListDelete = reactive<string[]>([]);
+
 interface Props {
+  userID: string;
   id: string;
   topic_type: string;
 }
@@ -80,6 +103,10 @@ const { commentList } = storeToRefs(commentStore);
 
 const updateData = inject<Function>("reload") as Function;
 
+onMounted(() => {
+  if (useUserStore.user.id === props.userID) managerComment.value = true;
+});
+
 const addComment = async () => {
   const commentData = {
     content: commentContent.value,
@@ -89,6 +116,28 @@ const addComment = async () => {
   const res = await commentStore.addComment(commentData);
   if (res.status == 200) {
     ElMessage({ message: "评论成功", type: "success" });
+    updateData();
+  }
+};
+
+const ifClick = (ifTrue: any, id: string) => {
+  if (ifTrue) {
+    commentListDelete.push(id);
+  } else {
+    // const resList = commentListDelete.filter((item) => item !== id);
+    commentListDelete.forEach((item, index) => {
+      if (item === id) commentListDelete.splice(index, 1);
+    });
+  }
+};
+
+const deleteCommentSelect = async () => {
+  const res = await commentStore.deletComment(
+    props.id,
+    toRaw(commentListDelete)
+  );
+  if (res.status == 200) {
+    ElMessage({ message: "删除成功 ", type: "success" });
     updateData();
   }
 };
@@ -134,10 +183,16 @@ const addComment = async () => {
   }
 
   &_box {
+    position: relative;
     display: flex;
     margin-top: 1.2rem;
     &_avatar {
       max-width: 7rem;
+    }
+    &_select {
+      position: absolute;
+      right: 0;
+      top: 0;
     }
     &_data {
       &_header {
@@ -159,5 +214,12 @@ const addComment = async () => {
       }
     }
   }
+}
+
+:deep(.el-button + .el-button) {
+  margin-left: 2px;
+}
+.btn-sm {
+  height: 2.5rem;
 }
 </style>

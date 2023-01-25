@@ -72,6 +72,7 @@
       <Suspense>
         <template #default>
           <ArticleComment
+            :userID="article_content.user.id"
             :id="article_content.id"
             :topic_type="article_content.topic"
             class="article_box_right_commentpart"

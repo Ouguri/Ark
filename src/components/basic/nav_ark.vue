@@ -12,9 +12,6 @@
           <router-link to="/platform">个人中心</router-link>
         </li>
         <li class="nav_ul_select">
-          <RouterLink to="/markdown">写作</RouterLink>
-        </li>
-        <li class="nav_ul_select">
           <router-link to="/">留言</router-link>
         </li>
         <li class="nav_ul_select">
@@ -32,10 +29,12 @@
     <!-- active-text="黑夜"
     inactive-text="白天" -->
     <div class="nav_right">
-      <span
-        ><el-switch v-model="isDarkTheme" class="mb-2" @change="history_theme"
-      /></span>
-      <span><RouterLink to="/login">JOIN US</RouterLink></span>
+      <span><el-switch v-model="isDarkTheme" @change="history_theme" /></span>
+      <span v-if="exit">EXIT LINK</span>
+      <span v-else><RouterLink to="/login">JOIN US</RouterLink></span>
+      <HeaderImg size="4.3rem" tran-x="-1rem" text-tranx="1rem">
+        <template #yourName> O </template>
+      </HeaderImg>
     </div>
   </nav>
 </template>
@@ -44,10 +43,13 @@
 import { useTheme } from "@/hook/themeChange";
 import { useSearch } from "@/hook/searchData";
 import { setTheme, getTheme } from "@/utils/saveTheme";
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
+import HeaderImg from "@/components/basic/theme_component/header_img.vue";
 
 const { isDarkTheme, changeTheme } = useTheme();
 const { searchData, searchContent } = useSearch();
+
+const exit = ref<boolean>(false);
 
 onMounted(() => {
   const themeData = getTheme();
@@ -103,11 +105,12 @@ $primary-font-color: rgb(240, 240, 240);
   }
 
   &_right {
-    padding-right: 3.5rem;
     font-size: 1.6rem;
-    margin-top: 1.6rem;
+    display: flex;
+    align-items: center;
     span {
-      margin-left: 1rem;
+      margin-left: 1.5rem;
+      transform: translateX(2.5rem);
     }
   }
 }

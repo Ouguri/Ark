@@ -55,6 +55,11 @@ const router = createRouter({
           name: "articles",
           component: () => import("@/views/manager/manager_article.vue"),
         },
+        {
+          path: "comments",
+          name: "comments",
+          component: () => import("@/views/manager/manager_comments.vue"),
+        },
       ],
     },
     // 404
