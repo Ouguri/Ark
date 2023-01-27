@@ -12,7 +12,7 @@
 <script setup lang="ts">
 import { defineAsyncComponent } from "vue";
 const ArticleManager = defineAsyncComponent(
-  () => import("@/layout_platform/content/manager_article_com.vue")
+  () => import("@/layout_platform/content/manager_comments_com.vue")
 );
 </script>
 

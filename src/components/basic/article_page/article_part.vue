@@ -168,9 +168,10 @@ const handleAnchorClick = (lineIndex: number): void => {
 
     &_link {
       &_author {
+        box-shadow: 0 0 1rem $article_card_shadow;
         border-radius: 3px;
         border-top-left-radius: 3rem;
-        background-color: $article_card_bgc_color;
+        background-color: $background_color_dark;
         height: 18rem;
         margin-bottom: 1rem;
         overflow: hidden;
@@ -206,8 +207,9 @@ const handleAnchorClick = (lineIndex: number): void => {
         }
       }
       &_title {
-        border-radius: 3px;
-        background-color: $article_card_bgc_color;
+        border-radius: 5px;
+        background-color: $background_color_dark;
+        box-shadow: 0 0 1rem $article_card_shadow;
         padding: 2rem;
 
         a {
@@ -225,7 +227,7 @@ const handleAnchorClick = (lineIndex: number): void => {
         a:hover:before {
           content: "";
           background-color: $article_font_color_dark;
-          border-radius: 2px;
+          border-radius: 5px;
           margin-right: 0.5rem;
         }
         div:not(:last-child) {
@@ -237,13 +239,16 @@ const handleAnchorClick = (lineIndex: number): void => {
   &_right {
     width: 85rem;
     &_articlepart {
-      border-radius: 3px;
-      background-color: $article_card_bgc_color;
+      background-color: $background_color_dark;
+      box-shadow: 0 0 1rem $article_card_shadow;
+      border-radius: 5px;
+      overflow: hidden;
     }
 
     &_commentpart {
-      border-radius: 3px;
-      background-color: $article_card_bgc_color;
+      border-radius: 5px;
+      background-color: $background_color_dark;
+      box-shadow: 0 0 1rem $article_card_shadow;
       margin-top: 1rem;
       padding: 2rem 3rem;
     }
@@ -276,7 +281,7 @@ const handleAnchorClick = (lineIndex: number): void => {
 
 // markdown 样式
 :deep(.vuepress-markdown-body) {
-  background-color: $article_card_bgc_color;
+  background-color: $background_color_dark;
   color: $article_font_color_dark;
   h2 {
     border-bottom: 1px solid rgb(92, 92, 92);
@@ -284,6 +289,6 @@ const handleAnchorClick = (lineIndex: number): void => {
 }
 
 :deep(.v-md-plugin-tip) {
-  background-color: #282c34;
+  background-color: $article_tip_card;
 }
 </style>

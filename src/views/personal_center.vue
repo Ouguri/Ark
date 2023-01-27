@@ -12,13 +12,12 @@
           active-text-color="rgb(106,210,120)"
           background-color="rgb(23, 23, 25)"
           class="el-menu-vertical-demo w-full menu-ark overflow-hidden"
-          default-active="1"
+          :default-active="currentPath"
           text-color="#fff"
-          @open="handleOpen"
-          @close="handleClose"
+          @select="handleSelect"
         >
           <router-link :to="{ name: 'personindex' }">
-            <el-menu-item index="1">
+            <el-menu-item :index="useUserStore.user.username">
               <el-icon><icon-menu /></el-icon>
               <span>个人主页</span>
             </el-menu-item>
@@ -30,17 +29,21 @@
             </template>
             <el-menu-item-group>
               <router-link :to="{ name: 'articleManager' }">
-                <el-menu-item index="2-1">个人文章</el-menu-item>
+                <el-menu-item :index="`${useUserStore.user.username}/articles`"
+                  >个人文章</el-menu-item
+                >
               </router-link>
-              <el-menu-item index="2-2">个人收藏</el-menu-item>
+              <el-menu-item :index="`${useUserStore.user.username}/store`"
+                >个人收藏</el-menu-item
+              >
             </el-menu-item-group>
           </el-sub-menu>
-          <el-menu-item index="3">
-            <router-link :to="{ name: 'commentManager' }">
+          <router-link :to="{ name: 'commentManager' }">
+            <el-menu-item :index="`${useUserStore.user.username}/comments`">
               <el-icon><document /></el-icon>
               <span>评论管理</span>
-            </router-link>
-          </el-menu-item>
+            </el-menu-item>
+          </router-link>
         </el-menu>
       </el-col>
     </el-row>
@@ -52,11 +55,20 @@
 
 <script setup lang="ts">
 import { Document, Menu as IconMenu, Location } from "@element-plus/icons-vue";
-const handleOpen = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath);
-};
-const handleClose = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath);
+import { userStore } from "@/stores/user";
+import { onMounted, ref } from "vue";
+
+const useUserStore = userStore();
+
+const currentPath = ref<string | null>("");
+
+onMounted(() => {
+  currentPath.value =
+    sessionStorage.getItem("historyPath") ?? useUserStore.user.username;
+});
+
+const handleSelect = (index: string) => {
+  sessionStorage.setItem("historyPath", index);
 };
 </script>
 

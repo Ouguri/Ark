@@ -31,7 +31,7 @@
       </div>
       <div>
         <div class="ark_card" v-for="item in searchShow" :key="item.articleID">
-          <div>
+          <div @click="enterTip(item.id)">
             <h2>
               <i-ep-management style="vertical-align: -0.25rem" />
               <span>{{ item.title }}</span>
@@ -86,6 +86,35 @@
         @current-change="handleCurrentChange"
       />
     </div>
+
+    <el-dialog
+      v-model="centerDialogVisible"
+      title="提示"
+      width="30%"
+      align-center
+      class="dialog"
+    >
+      <span>确定查看文章吗？</span>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button
+            color="#535355"
+            :dark="true"
+            plain
+            @click="centerDialogVisible = false"
+            >取消</el-button
+          >
+          <el-button
+            color="rgb(41, 123, 255)"
+            :dark="true"
+            style="margin-left: 2rem"
+            @click="enterArticle"
+          >
+            确定
+          </el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -97,6 +126,8 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 const useArticleStore = articleStore();
 
+const centerDialogVisible = ref(false);
+const articleGoId = ref<string>("");
 const searchData = ref<string>("");
 // 按什么内容搜索
 const selectValue = ref<number>(0);
@@ -164,6 +195,18 @@ const updateArticle = (data: any) => {
     name: "markdown",
   });
 };
+
+// 查看文章
+const enterTip = (id: string) => {
+  centerDialogVisible.value = true;
+  articleGoId.value = id;
+};
+const enterArticle = () => {
+  router.push({
+    name: "article",
+    params: { id: articleGoId.value },
+  });
+};
 </script>
 
 <style lang="scss" scoped>
@@ -179,9 +222,13 @@ const updateArticle = (data: any) => {
 
 .ark_card {
   width: 100%;
-
-  transition: all 0.5s;
+  transition: all 0.3s;
   position: relative;
+  user-select: none;
+  cursor: pointer;
+  &:hover {
+    transform: translateY(-2px);
+  }
 }
 
 :deep(.el-pagination) {

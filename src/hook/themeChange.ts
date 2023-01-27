@@ -11,7 +11,7 @@ export const useTheme = () => {
         .style.setProperty("--font--color", "rgb(23, 23, 25)");
       document
         .getElementsByTagName("body")[0]
-        .style.setProperty("--bg-color", "rgb(253, 253, 253)");
+        .style.setProperty("--bg-color", "rgb(255, 255, 255)");
       document
         .getElementsByTagName("body")[0]
         .style.setProperty("--nav-color", "rgba(253, 253, 253, 0.93)");
@@ -20,7 +20,10 @@ export const useTheme = () => {
         .style.setProperty("--article-font-color", "rgb(23, 23, 25)");
       document
         .getElementsByTagName("body")[0]
-        .style.setProperty("--article-card-color", "rgb(253, 253, 253)");
+        .style.setProperty("--shadow-card", "rgb(209, 209, 209)");
+      document
+        .getElementsByTagName("body")[0]
+        .style.setProperty("--tip-card", "#f3f5f7");
     } else {
       document
         .getElementsByTagName("body")[0]
@@ -36,7 +39,10 @@ export const useTheme = () => {
         .style.setProperty("--article-font-color", "rgb(233, 223, 204)");
       document
         .getElementsByTagName("body")[0]
-        .style.setProperty("--article-card-color", "rgb(18, 15, 25)");
+        .style.setProperty("--shadow-card", "rgb(0, 0, 0)");
+      document
+        .getElementsByTagName("body")[0]
+        .style.setProperty("--tip-card", "#282c34");
     }
   };
 

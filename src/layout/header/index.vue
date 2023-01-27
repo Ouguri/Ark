@@ -9,7 +9,13 @@
         <h3>在这里，记录你的生活</h3>
         <h3>分享你的旅程 ......</h3>
         <div class="search_box">
-          <input placeholder="Search" type="text" v-model="searchData" />
+          <input
+            placeholder="Search..."
+            type="text"
+            v-model="searchData"
+            @focus="searchData = ``"
+            @blur="searchData = `测试`"
+          />
           <button @click.prevent="searchContent" class="search_box_icon">
             <i-ep-search style="font-size: 2.4rem" />
           </button>
@@ -88,7 +94,10 @@ const { searchContent, searchData } = useSearch();
     outline: none;
     padding: 2rem;
     font-size: 1.6rem;
-    color: $dark_font_color;
+    color: rgb(153, 153, 153);
+    &:focus {
+      color: $dark_font_color;
+    }
   }
 
   &_icon {

@@ -20,4 +20,14 @@ const reload = () => {
 provide("reload", reload);
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+:deep(.el-dialog.is-align-center) {
+  background-color: #141414 !important;
+}
+:deep(.el-dialog__body) {
+  color: #fff !important;
+}
+:deep(.el-dialog__title) {
+  color: #fff !important;
+}
+</style>

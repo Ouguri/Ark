@@ -81,6 +81,7 @@ html {
 body {
   box-sizing: border-box;
   background-color: $background_color_dark;
+  transition: all 0.3s;
 }
 
 a {

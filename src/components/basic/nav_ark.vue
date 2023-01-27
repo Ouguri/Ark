@@ -13,7 +13,12 @@
         </li>
         <li class="nav_ul_select">
           <div class="search_box">
-            <input type="text" v-model="searchData" />
+            <input
+              type="text"
+              v-model="searchData"
+              @focus="searchData = ``"
+              @blur="searchData = `测试`"
+            />
             <button class="search_box_icon" @click="searchContent">
               <i-ep-search style="font-size: 1.5rem" />
             </button>
@@ -30,7 +35,7 @@
       <span
         v-if="useUserStore.status"
         @click="exitLogin"
-        class="cursor-pointer text-white"
+        class="cursor-pointer exit"
         >EXIT LINK</span
       >
       <span v-else><RouterLink to="/login">JOIN US</RouterLink></span>
@@ -183,17 +188,23 @@ $primary-font-color: rgb(240, 240, 240);
   }
 }
 
+.exit {
+  color: $light_font_color;
+}
+
 .overlay {
   position: fixed;
+  width: 100vw;
+  height: 100vw;
   top: 0;
   left: 0;
-  transition: all 0.2s;
+  visibility: hidden;
+  z-index: -1;
+  transition: all 0.3s;
 }
 
 input:focus ~ .overlay {
-  width: 100vw;
-  height: 100vh;
   background-color: rgba(12, 12, 12, 0.7);
-  z-index: -1;
+  visibility: visible;
 }
 </style>

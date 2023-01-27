@@ -30,6 +30,6 @@ const AriclePart = defineAsyncComponent(
 .nav_position_open {
   position: relative;
   background-color: $background_color_dark !important;
-  box-shadow: 0px 0.2rem 1.9rem rgb(0, 0, 0);
+  box-shadow: 0px 0.2rem 1.9rem $article_card_shadow;
 }
 </style>
