@@ -39,10 +39,20 @@ export const fetchPersonalArticle = async (
 
 // 更新文章接口
 export const updateArticle = async (updateData: any, id: string) => {
-  await requestUser({
+  return await requestUser({
     url: `/articles?id=${id}`,
     method: "patch",
     data: updateData,
+  });
+};
+
+// 上传文章图片接口
+export const uploadArticleImg = async (file: FormData) => {
+  return await requestUser({
+    url: `/articles/articleimgs`,
+    method: "post",
+    data: file,
+    headers: { "Content-Type": "multipart/form-data" },
   });
 };
 

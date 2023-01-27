@@ -7,7 +7,11 @@
             <HeaderImg
               class="card_img"
               size="7.3rem"
-              :img="`http://localhost:3000/avatar/${useUserStore.user.avatar}`"
+              :img="
+                token
+                  ? `http://localhost:3000/avatar/${useUserStore.user.avatar}`
+                  : `/nat-8.jpg`
+              "
             >
               <template #yourName> {{ useUserStore.user.username }} </template>
             </HeaderImg>
@@ -73,7 +77,6 @@
         <v-md-preview
           :text="article_content.content"
           ref="preview"
-          class="article_box_right_text"
         ></v-md-preview>
       </div>
       <Suspense>
@@ -101,6 +104,7 @@ import { useRoute } from "vue-router";
 import { onMounted, ref, reactive, nextTick, defineAsyncComponent } from "vue";
 import HeaderImg from "@/components/basic/theme_component/header_img.vue";
 import { storeToRefs } from "pinia";
+import { getToken } from "@/utils/savetoken";
 
 const ArticleComment = defineAsyncComponent(
   () => import("@/components/basic/article_page/comment_part.vue")
@@ -111,6 +115,7 @@ const useArticleStore = articleStore();
 const useUserStore = userStore();
 const route = useRoute();
 
+const token = ref<string>("");
 const titles = reactive<any>([]);
 const preview = ref();
 
@@ -139,6 +144,8 @@ onMounted(async () => {
       indent: hTags.indexOf(el.tagName),
     })
   );
+
+  token.value = getToken() as string;
 });
 
 const handleAnchorClick = (lineIndex: number): void => {
@@ -255,7 +262,7 @@ const handleAnchorClick = (lineIndex: number): void => {
         flex-direction: column;
         justify-content: space-evenly;
         .author_link {
-          color: rgb(233, 223, 204);
+          color: $article_font_color_dark;
           font-size: 2.3em;
         }
         .author_watch {
@@ -265,5 +272,18 @@ const handleAnchorClick = (lineIndex: number): void => {
       }
     }
   }
+}
+
+// markdown 样式
+:deep(.vuepress-markdown-body) {
+  background-color: $article_card_bgc_color;
+  color: $article_font_color_dark;
+  h2 {
+    border-bottom: 1px solid rgb(92, 92, 92);
+  }
+}
+
+:deep(.v-md-plugin-tip) {
+  background-color: #282c34;
 }
 </style>

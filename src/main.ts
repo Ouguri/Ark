@@ -12,29 +12,34 @@ import VueMarkdownEditor from "@kangc/v-md-editor";
 import "@kangc/v-md-editor/lib/style/base-editor.css";
 import vuepressTheme from "@kangc/v-md-editor/lib/theme/vuepress.js";
 import "@kangc/v-md-editor/lib/theme/style/vuepress.css";
-
-import Prism from "prismjs";
-
-import VMdPreview from "@kangc/v-md-editor/lib/preview";
 import "@kangc/v-md-editor/lib/style/preview.css";
-import githubTheme from "@kangc/v-md-editor/lib/theme/github.js";
 import "@kangc/v-md-editor/lib/theme/style/github.css";
-
-// highlightjs
-import hljs from "highlight.js";
+import createCopyCodePlugin from "@kangc/v-md-editor/lib/plugins/copy-code/index";
+import "@kangc/v-md-editor/lib/plugins/copy-code/copy-code.css";
+import VMdPreview from "@kangc/v-md-editor/lib/preview";
+import Prism from "prismjs";
+import createLineNumbertPlugin from "@kangc/v-md-editor/lib/plugins/line-number/index";
 
 const app = createApp(App);
 
 app.component("NavGloal", NavGloal);
 
+// 代码行号
+VueMarkdownEditor.use(createLineNumbertPlugin());
+// 代码块复制
+VueMarkdownEditor.use(createCopyCodePlugin());
+
 VueMarkdownEditor.use(vuepressTheme, {
   Prism,
 });
-VMdPreview.use(githubTheme, {
-  Hljs: hljs,
+
+VMdPreview.use(vuepressTheme, {
+  Prism,
 });
+
 app.use(VMdPreview);
 app.use(VueMarkdownEditor);
+
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
 app.use(pinia);

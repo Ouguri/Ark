@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { getToken } from "@/utils/savetoken";
 import Layout from "@/layout/index.vue";
 
 const router = createRouter({
@@ -35,13 +36,13 @@ const router = createRouter({
     },
     // 搜索页
     {
-      path: "/search",
+      path: "/search/:content",
       name: "search",
       component: () => import("@/views/search_show.vue"),
     },
     // 个人中心
     {
-      path: "/platform",
+      path: "/platform/:username",
       name: "personalCenter",
       component: () => import("@/views/personal_center.vue"),
       children: [
@@ -52,12 +53,12 @@ const router = createRouter({
         },
         {
           path: "articles",
-          name: "articles",
+          name: "articleManager",
           component: () => import("@/views/manager/manager_article.vue"),
         },
         {
           path: "comments",
-          name: "comments",
+          name: "commentManager",
           component: () => import("@/views/manager/manager_comments.vue"),
         },
       ],
@@ -69,6 +70,20 @@ const router = createRouter({
       component: () => import("@/views/404.vue"),
     },
   ],
+});
+
+const whiteList = ["404", "search", "article", "login", "ark"];
+
+router.beforeEach((to, _, next) => {
+  if (whiteList.includes(to.name as string)) {
+    next();
+  } else {
+    const token = getToken();
+    if (token) next();
+    else {
+      next("/login");
+    }
+  }
 });
 
 export default router;

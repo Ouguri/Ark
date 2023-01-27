@@ -51,10 +51,10 @@ const useArticleStore = articleStore();
 const route = useRoute();
 const router = useRouter();
 const searchShow = ref<any>();
-const searchContent = ref<any>(route.query);
+const searchContent = ref<any>(route.params);
 
 onMounted(async () => {
-  searchContent.value = route.query;
+  searchContent.value = route.params;
 
   const res = await useArticleStore.searchArticle({
     content: searchContent.value.content,
@@ -65,7 +65,7 @@ onMounted(async () => {
   searchShow.value = res.data[0];
 });
 
-onUpdated(() => (searchContent.value = route.query));
+onUpdated(() => (searchContent.value = route.params));
 
 const goTOAnArticle = (item: any) => {
   router.push({

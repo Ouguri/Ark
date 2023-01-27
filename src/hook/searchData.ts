@@ -3,11 +3,11 @@ import { useRouter } from "vue-router";
 
 export const useSearch = () => {
   const router = useRouter();
-  const searchData = ref<string>("");
+  const searchData = ref<string>("测试");
   const searchContent = () => {
     router.push({
       name: "search",
-      query: { content: searchData.value },
+      params: { content: searchData.value },
     });
   };
 

@@ -9,9 +9,6 @@
           <router-link to="/search">精选</router-link>
         </li>
         <li class="nav_ul_select">
-          <router-link to="/platform">个人中心</router-link>
-        </li>
-        <li class="nav_ul_select">
           <router-link to="/">留言</router-link>
         </li>
         <li class="nav_ul_select">
@@ -30,11 +27,23 @@
     inactive-text="白天" -->
     <div class="nav_right">
       <span><el-switch v-model="isDarkTheme" @change="history_theme" /></span>
-      <span v-if="exit">EXIT LINK</span>
+      <span
+        v-if="useUserStore.status"
+        @click="exitLogin"
+        class="cursor-pointer text-white"
+        >EXIT LINK</span
+      >
       <span v-else><RouterLink to="/login">JOIN US</RouterLink></span>
-      <HeaderImg size="4.3rem" tran-x="-1rem" text-tranx="1rem" :img="avatar">
-        <template #yourName> &nbsp; </template>
-      </HeaderImg>
+      <router-link :to="`/platform/${username}`">
+        <HeaderImg
+          size="4.3rem"
+          tran-x="-1rem"
+          text-tranx="1rem"
+          :img="token ? avatar : `/nat-8.jpg`"
+        >
+          <template #yourName> &nbsp; </template>
+        </HeaderImg>
+      </router-link>
     </div>
   </nav>
 </template>
@@ -43,20 +52,28 @@
 import { useTheme } from "@/hook/themeChange";
 import { useSearch } from "@/hook/searchData";
 import { setTheme, getTheme } from "@/utils/saveTheme";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, inject } from "vue";
 import { getUserAvater } from "@/hook/getAvatar";
+import { userStore } from "@/stores/user";
+import { getToken } from "@/utils/savetoken";
+import { useRouter } from "vue-router";
 import HeaderImg from "@/components/basic/theme_component/header_img.vue";
 
+const useUserStore = userStore();
+const router = useRouter();
 const { isDarkTheme, changeTheme } = useTheme();
 const { searchData, searchContent } = useSearch();
-const { avatar, avatarGetStart } = getUserAvater();
+const { avatar, username, avatarGetStart, usernameGetStart } = getUserAvater();
+const updateData = inject<Function>("reload") as Function;
 
-const exit = ref<boolean>(false);
+const token = ref<string>("");
 
 onMounted(() => {
   const themeData = getTheme();
   const change = !themeData;
   avatarGetStart();
+  usernameGetStart();
+  token.value = getToken() as string;
   if (themeData) isDarkTheme.value = change;
   changeTheme();
 });
@@ -65,6 +82,12 @@ const history_theme = () => {
   isDarkTheme.value ? true : false;
   changeTheme();
   setTheme(isDarkTheme.value);
+};
+
+const exitLogin = () => {
+  useUserStore.exitLogin();
+  updateData();
+  router.push("/ark");
 };
 </script>
 

@@ -8,6 +8,7 @@ import {
   fetchPersonalArticle,
   deleteArticle,
   updateArticle,
+  uploadArticleImg,
 } from "@/api";
 import type { Article } from "@/libcommon/index";
 import type { ANARTICLE, SEARCHARG } from "@/interface";
@@ -49,6 +50,11 @@ export const articleStore = defineStore(Names.articleStore, {
 
     async deleteArticle(id: string) {
       await deleteArticle(id);
+    },
+
+    async uploadArticleImg(file: FormData): Promise<any> {
+      const res = await uploadArticleImg(file);
+      return res;
     },
 
     async enterArticle(id: string): Promise<void> {

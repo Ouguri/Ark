@@ -8,7 +8,13 @@
         v-model="articleData.title"
       />
     </div>
-    <v-md-editor v-model="articleData.content" height="89%"></v-md-editor>
+    <v-md-editor
+      v-model="articleData.content"
+      left-toolbar="undo redo | image"
+      :disabled-menus="[]"
+      @upload-image="handleUploadImage"
+      height="89%"
+    ></v-md-editor>
     <div class="py-1 px-6 float-right">
       <el-button v-show="!isShow">保存至个人</el-button>
       <el-button v-show="!isShow" type="primary" @click="saveArticle"
@@ -70,7 +76,22 @@ const saveUpdate = async () => {
   const id = useArticleStore.article_content.id;
   await useArticleStore.updateArticle(articleData, id);
   router.push({
-    name: "articles",
+    name: "article",
+    params: { id },
+  });
+};
+
+const handleUploadImage = (_: any, insertImage: any, files: any) => {
+  const formData = new FormData();
+  formData.append("file", files[0]);
+
+  useArticleStore.uploadArticleImg(formData).then((res) => {
+    insertImage({
+      url: `http://localhost:3000/articleimg/${res.data}`,
+      desc: "ouguri",
+      width: "auto",
+      height: "auto",
+    });
   });
 };
 

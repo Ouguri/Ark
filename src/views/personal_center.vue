@@ -29,14 +29,14 @@
               <span>文章管理</span>
             </template>
             <el-menu-item-group>
-              <router-link :to="{ name: 'articles' }">
+              <router-link :to="{ name: 'articleManager' }">
                 <el-menu-item index="2-1">个人文章</el-menu-item>
               </router-link>
               <el-menu-item index="2-2">个人收藏</el-menu-item>
             </el-menu-item-group>
           </el-sub-menu>
           <el-menu-item index="3">
-            <router-link :to="{ name: 'comments' }">
+            <router-link :to="{ name: 'commentManager' }">
               <el-icon><document /></el-icon>
               <span>评论管理</span>
             </router-link>
