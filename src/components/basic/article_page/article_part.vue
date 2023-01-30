@@ -7,33 +7,60 @@
             <HeaderImg
               class="card_img"
               size="7.3rem"
-              :img="
-                token
-                  ? `http://localhost:3000/avatar/${useUserStore.user.avatar}`
-                  : `/nat-8.jpg`
-              "
+              :img="`http://localhost:3000/avatar/${article_content.user.avatar}`"
             >
-              <template #yourName> {{ useUserStore.user.username }} </template>
+              <template #yourName>
+                {{ article_content.user.username }}
+              </template>
             </HeaderImg>
             <div class="card_data">
               <span style="font-size: 3em; margin: 0 0 1rem -2rem"
-                >{{ useUserStore.user.username }}
+                >{{ article_content.user.username }}
               </span>
-              <span style="font-size: 1.5em; margin: 0 0 0 -1.6rem">Lv: 1</span>
+              <span style="font-size: 1.5em; margin: 0 0 0 -1.6rem"
+                >Lv: {{ article_content.user.level }}</span
+              >
             </div>
           </router-link>
           <div class="card_btn">
-            <button>关注</button>
-            <button>为他点赞</button>
+            <button
+              @click="
+                rewardUser({
+                  followers: 1,
+                  username: article_content.user.username,
+                })
+              "
+              class="card_btn_first"
+              v-if="!followStatus"
+            >
+              关注
+            </button>
+            <button
+              @click="
+                rewardUser({
+                  followers: -1,
+                  username: article_content.user.username,
+                })
+              "
+              class="card_btn_second"
+              v-else
+            >
+              已关注
+            </button>
+            <button class="card_btn_first">私信</button>
           </div>
           <div class="card_user_data">
             <span class="card_user_data_text">
               <i-ep-avatar style="font-size: 1.2rem; vertical-align: middle" />
-              <span> 关注数：100w</span>
+              <span> 关注数：{{ article_content.user.followers }}</span>
             </span>
             <span class="card_user_data_text">
+              <span> 打个分吧：</span>
               <i-ep-star style="font-size: 1.2rem; vertical-align: middle" />
-              <span> 获得点赞：4.52w</span>
+              <i-ep-star style="font-size: 1.2rem; vertical-align: middle" />
+              <i-ep-star style="font-size: 1.2rem; vertical-align: middle" />
+              <i-ep-star style="font-size: 1.2rem; vertical-align: middle" />
+              <i-ep-star style="font-size: 1.2rem; vertical-align: middle" />
             </span>
           </div>
         </div>
@@ -104,7 +131,7 @@ import { useRoute } from "vue-router";
 import { onMounted, ref, reactive, nextTick, defineAsyncComponent } from "vue";
 import HeaderImg from "@/components/basic/theme_component/header_img.vue";
 import { storeToRefs } from "pinia";
-import { getToken } from "@/utils/savetoken";
+import { ElMessage } from "element-plus";
 
 const ArticleComment = defineAsyncComponent(
   () => import("@/components/basic/article_page/comment_part.vue")
@@ -115,9 +142,10 @@ const useArticleStore = articleStore();
 const useUserStore = userStore();
 const route = useRoute();
 
-const token = ref<string>("");
 const titles = reactive<any>([]);
 const preview = ref();
+
+const followStatus = ref<boolean>(false);
 
 const id = route.params.id as string;
 
@@ -145,7 +173,12 @@ onMounted(async () => {
     })
   );
 
-  token.value = getToken() as string;
+  // 是否关注了该作者
+  if (useUserStore.user.follows) {
+    followStatus.value = useUserStore.user.follows
+      .map((item) => item.username)
+      .includes(article_content.value.user.username);
+  }
 });
 
 const handleAnchorClick = (lineIndex: number): void => {
@@ -154,6 +187,16 @@ const handleAnchorClick = (lineIndex: number): void => {
   );
 
   if (heading) heading.scrollIntoView({ behavior: "smooth" });
+};
+
+const rewardUser = async (reward: any) => {
+  const username = article_content.value.user.username;
+  if (username !== useUserStore.user.username) {
+    const res = await useUserStore.updateByOther(reward);
+    res.status == 200
+      ? (followStatus.value = !followStatus.value)
+      : ElMessage({ message: "关注失败，请稍后重试！", type: "error" });
+  } else ElMessage({ message: "不可以关注自己哦！", type: "warning" });
 };
 </script>
 
@@ -190,9 +233,23 @@ const handleAnchorClick = (lineIndex: number): void => {
           padding: $article_user_card_padding;
           display: flex;
           justify-content: space-between;
-          button {
-            padding: 0.4rem 4.3rem;
+          &_first {
+            padding: 0.5rem 4.8rem;
             cursor: pointer;
+            background-color: $article_font_color_dark;
+            color: $dark_font_color;
+            font-weight: 600;
+            border: none;
+            border-radius: 3px;
+          }
+          &_second {
+            padding: 0.6rem 4.8rem;
+            cursor: pointer;
+            background-color: $article_tip_card;
+            color: $dark_font_color;
+            font-weight: 600;
+            border: none;
+            border-radius: 3px;
           }
         }
         .card_user_data {

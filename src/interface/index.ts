@@ -12,6 +12,7 @@ export interface ANARTICLE {
     level: number;
     vip: string;
     id: string;
+    followers: number;
   };
 }
 

@@ -1,21 +1,26 @@
 <template>
   <div class="flex">
     <div class="flex flex-col" style="width: 35rem; margin-right: 4rem">
-      <HeaderImg
-        size="28rem"
-        tran-x="-5.6rem"
-        text-tranx="0"
-        @click="centerDialogVisible = true"
-        :img="avatar"
-      >
-      </HeaderImg>
-      <h2 class="text-3xl my-1">{{ useUserStore.user.username }}</h2>
-      <div class="mt-2 w-full flex justify-center">
-        <button class="menu-btn edit mr-2">编辑资料</button>
-        <button class="menu-btn follow">关注</button>
+      <div class="relative">
+        <div class="follower">{{ useUserStore.user.followers }}</div>
+        <div class="star">{{ useUserStore.user.stars }}</div>
+        <HeaderImg
+          size="28rem"
+          tran-x="-5.6rem"
+          text-tranx="0"
+          @click="centerDialogVisible = true"
+          :img="avatar"
+        >
+        </HeaderImg>
       </div>
-      <el-divider />
-      Lv 1：<el-progress :percentage="percentage" color="rgb(75, 155, 96)" />
+      <h2 class="text-3xl my-1">{{ useUserStore.user.username }}</h2>
+      <div class="mt-2 w-full flex justify-between">
+        <button class="menu-btn edit">编辑资料</button>
+        <!-- <button class="menu-btn edit">关注</button> -->
+      </div>
+      <div class="mt-2">
+        Lv 1：<el-progress :percentage="percentage" color="rgb(75, 155, 96)" />
+      </div>
     </div>
     <div class="ark mt-2">
       <div class="ark_title text-6xl mb-14">My Ark</div>
@@ -37,9 +42,11 @@
             <el-tag>Tag 2</el-tag>
           </div>
         </div>
-        <div class="ark_card"></div>
-        <div class="ark_card"></div>
-        <div class="ark_card"></div>
+        <div class="ark_card">空空如也~</div>
+        <div class="ark_card">空空如也~</div>
+        <div class="ark_card">空空如也~</div>
+        <div class="ark_card">空空如也~</div>
+        <div class="ark_card">空空如也~</div>
       </div>
 
       <div>
@@ -123,11 +130,12 @@ const avatarFinish = () => {
 }
 
 .edit {
-  width: 60%;
+  width: 100%;
   padding: 0.8rem 0;
 }
 .follow {
-  width: 40%;
+  width: 48%;
+  padding: 0.8rem 0;
 }
 
 .ark_card {
@@ -138,6 +146,7 @@ const avatarFinish = () => {
   padding: 2rem;
   box-shadow: 0 0 1rem $manager-primary-card-shadow;
   transition: all 0.5s;
+  cursor: pointer;
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 0 1.5rem $manager-primary-card-shadow;
@@ -148,5 +157,42 @@ const avatarFinish = () => {
   position: absolute;
   top: 50%;
   left: 20%;
+}
+
+.follower {
+  @include starAndFollower;
+  top: 50%;
+  left: 88%;
+  &::before {
+    content: "";
+    opacity: 0;
+    transition: all 0.6s;
+  }
+  &:hover {
+    &::before {
+      content: "关注数: ";
+      opacity: 1;
+    }
+    width: 10rem;
+    border-radius: 10px;
+  }
+}
+.star {
+  @include starAndFollower;
+  top: 75%;
+  left: 77%;
+  &::before {
+    content: "";
+    opacity: 0;
+    transition: all 0.6s;
+  }
+  &:hover {
+    &::before {
+      content: "Stars: ";
+      opacity: 1;
+    }
+    width: 10rem;
+    border-radius: 10px;
+  }
 }
 </style>

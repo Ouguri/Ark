@@ -83,10 +83,20 @@ export const fetchComments = async (
   });
 };
 
+// 删除评论
 export const deleteComments = async (data: any) => {
   return await requestUser({
     url: `/comment`,
     method: "delete",
     data,
+  });
+};
+
+// 更新用户信息（关注、点赞）
+export const updateByOther = async (updateData: any) => {
+  return await requestUser({
+    url: `/user`,
+    method: "patch",
+    data: updateData,
   });
 };

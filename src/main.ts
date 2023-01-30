@@ -24,14 +24,13 @@ const app = createApp(App);
 
 app.component("NavGloal", NavGloal);
 
+VueMarkdownEditor.use(vuepressTheme, {
+  Prism,
+});
 // 代码行号
 VueMarkdownEditor.use(createLineNumbertPlugin());
 // 代码块复制
 VueMarkdownEditor.use(createCopyCodePlugin());
-
-VueMarkdownEditor.use(vuepressTheme, {
-  Prism,
-});
 
 VMdPreview.use(vuepressTheme, {
   Prism,

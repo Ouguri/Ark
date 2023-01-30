@@ -44,6 +44,10 @@
               <span>评论管理</span>
             </el-menu-item>
           </router-link>
+          <el-menu-item :index="`${useUserStore.user.username}/follows`">
+            <el-icon><document /></el-icon>
+            <span>关注列表</span>
+          </el-menu-item>
         </el-menu>
       </el-col>
     </el-row>
@@ -56,7 +60,7 @@
 <script setup lang="ts">
 import { Document, Menu as IconMenu, Location } from "@element-plus/icons-vue";
 import { userStore } from "@/stores/user";
-import { onMounted, ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 
 const useUserStore = userStore();
 
@@ -65,6 +69,10 @@ const currentPath = ref<string | null>("");
 onMounted(() => {
   currentPath.value =
     sessionStorage.getItem("historyPath") ?? useUserStore.user.username;
+});
+
+onUnmounted(() => {
+  sessionStorage.removeItem("historyPath");
 });
 
 const handleSelect = (index: string) => {

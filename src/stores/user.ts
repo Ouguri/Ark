@@ -3,7 +3,7 @@ import type { User } from "@/libcommon";
 import { defineStore } from "pinia";
 import { Names } from "./store_name";
 import { saveToken, removeToken } from "@/utils/savetoken";
-import { signIn, signUp } from "@/api/index";
+import { signIn, signUp, updateByOther } from "@/api/index";
 import type { AxiosResponse } from "axios";
 
 export const userStore = defineStore(Names.userStore, {
@@ -40,12 +40,20 @@ export const userStore = defineStore(Names.userStore, {
       this.user.id = "empty";
       this.user.articles = [];
       this.user.comments = [];
+      this.user.follows = [];
       this.status = false;
     },
 
     // 注册
     async userSignUp(signup_data: User): Promise<AxiosResponse> {
       const result = await signUp(signup_data);
+      return result;
+    },
+
+    // 点赞关注
+    async updateByOther(updateData: any) {
+      const result = await updateByOther(updateData);
+      this.user.follows = result.data.follows;
       return result;
     },
   },

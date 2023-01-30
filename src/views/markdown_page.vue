@@ -101,4 +101,12 @@ const cancelEdit = () => {
 };
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+:deep(.vuepress-markdown-body) {
+  p,
+  li,
+  ol {
+    color: #2c3e50 !important;
+  }
+}
+</style>

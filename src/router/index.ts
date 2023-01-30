@@ -40,6 +40,12 @@ const router = createRouter({
       name: "search",
       component: () => import("@/views/search_show.vue"),
     },
+    // 他人视角-用户中心
+    {
+      path: "/ark/:username",
+      name: "arkcenter",
+      component: () => import("@/views/user_center.vue"),
+    },
     // 个人中心
     {
       path: "/platform/:username",
