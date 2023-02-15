@@ -1,6 +1,11 @@
 <template>
   <div>
-    <RouterView v-if="isAlive"></RouterView>
+    <Suspense>
+      <template #default>
+        <RouterView v-if="isAlive"></RouterView>
+      </template>
+      <template #fallback> loading... </template>
+    </Suspense>
   </div>
 </template>
 

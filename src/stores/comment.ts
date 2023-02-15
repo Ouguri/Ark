@@ -1,6 +1,12 @@
 import { defineStore } from "pinia";
 import { Names } from "./store_name";
-import { createComment, fetchComments, deleteComments } from "@/api/index";
+import {
+  createComment,
+  fetchComments,
+  deleteComments,
+  replyAndGoodsComment,
+} from "@/api/index";
+import type { AxiosResponse } from "axios";
 
 export const useCommentStore = defineStore(Names.commentStore, {
   state: () => ({
@@ -27,6 +33,16 @@ export const useCommentStore = defineStore(Names.commentStore, {
         return res;
       } catch (error) {
         console.log(error);
+      }
+    },
+
+    async replyAndGoods(data: any): Promise<AxiosResponse | any> {
+      try {
+        const res = await replyAndGoodsComment(data);
+        return res;
+      } catch (error) {
+        console.error(error);
+        return error;
       }
     },
 

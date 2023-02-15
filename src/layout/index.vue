@@ -9,8 +9,30 @@
 <script setup lang="ts">
 import Header from "@/layout/header/index.vue";
 import Content from "@/layout/content/index.vue";
+import { onMounted, nextTick, reactive, provide } from "vue";
+import { fetchIndexData } from "@/api";
 
-import { onMounted, nextTick } from "vue";
+interface Data {
+  carouselData?: string[];
+  id?: number;
+  indexTitleText?: string;
+  indexVideo?: string;
+  name?: string;
+}
+
+const data = reactive<Data>({});
+const storedIndex = JSON.parse(sessionStorage.getItem("indexData") as string);
+
+if (storedIndex) {
+  Object.assign(data, storedIndex);
+} else {
+  const indexData = await fetchIndexData("default");
+  Object.assign(data, indexData.data);
+  sessionStorage.setItem("indexData", JSON.stringify(indexData.data));
+}
+console.log(data);
+
+provide("indexData", data);
 
 onMounted(async () => {
   await nextTick();

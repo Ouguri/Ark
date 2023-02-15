@@ -8,7 +8,10 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Article_part: typeof import('./src/components/basic/article_page/article_part.vue')['default']
+    Carousel: typeof import('./src/components/basic/Carousel.vue')['default']
+    Carousel_change: typeof import('./src/components/basic/theme_component/carousel_change.vue')['default']
     Comment_part: typeof import('./src/components/basic/article_page/comment_part.vue')['default']
+    copy: typeof import('./src/components/basic/theme_component/header_change copy.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElCol: typeof import('element-plus/es')['ElCol']
@@ -31,6 +34,7 @@ declare module '@vue/runtime-core' {
     Header_change: typeof import('./src/components/basic/theme_component/header_change.vue')['default']
     Header_img: typeof import('./src/components/basic/theme_component/header_img.vue')['default']
     IEpAvatar: typeof import('~icons/ep/avatar')['default']
+    IEpCaretRight: typeof import('~icons/ep/caret-right')['default']
     IEpComment: typeof import('~icons/ep/comment')['default']
     IEpManagement: typeof import('~icons/ep/management')['default']
     IEpPostcard: typeof import('~icons/ep/postcard')['default']
@@ -41,6 +45,7 @@ declare module '@vue/runtime-core' {
     Main_fourth_part: typeof import('./src/components/basic/main_page/main_fourth_part.vue')['default']
     Main_second_part: typeof import('./src/components/basic/main_page/main_second_part.vue')['default']
     Main_third_part: typeof import('./src/components/basic/main_page/main_third_part.vue')['default']
+    Manager_follow_com: typeof import('./src/components/basic/article_page/manager_follow_com.vue')['default']
     Nav_ark: typeof import('./src/components/basic/nav_ark.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

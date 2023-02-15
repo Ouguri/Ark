@@ -22,3 +22,11 @@ export interface SEARCHARG {
   take: number;
   skip: number;
 }
+
+export interface CAROUSEL {
+  id?: string;
+  carouselData?: string[];
+  indexVideo?: string;
+  name?: string;
+  indexTitleText?: string;
+}

@@ -4,7 +4,7 @@
     <h1 class="text-7xl">搜索结果</h1>
     <div class="theme_box_content mt-12 p-8">
       <div
-        class="theme_box_content_search p-6 bg-slate-800"
+        class="theme_box_content_search p-6"
         v-for="item in searchShow"
         :key="item.articleID"
         @click="goTOAnArticle(item)"
@@ -90,11 +90,20 @@ watch(searchContent, async () => {
   @include page_width;
   margin-top: 5rem;
   &_content {
-    background-color: $article_bgc_color_dark;
+    background-color: transparent;
+    box-shadow: 0 0 1.5rem $article_card_shadow;
     border-radius: 3px;
     min-height: 67vh;
     &_search {
       border-radius: 5px;
+      background: $article_tip_card;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.5s;
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0.2rem 0.8rem $article_card_shadow;
+      }
       &:not(:last-child) {
         margin-bottom: 1rem;
       }

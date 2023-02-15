@@ -3,7 +3,13 @@ import type { User } from "@/libcommon";
 import { defineStore } from "pinia";
 import { Names } from "./store_name";
 import { saveToken, removeToken } from "@/utils/savetoken";
-import { signIn, signUp, updateByOther } from "@/api/index";
+import {
+  signIn,
+  signUp,
+  updateByOther,
+  fetchUserFollowList,
+  fetchUserCenter,
+} from "@/api/index";
 import type { AxiosResponse } from "axios";
 
 export const userStore = defineStore(Names.userStore, {
@@ -52,9 +58,23 @@ export const userStore = defineStore(Names.userStore, {
 
     // 点赞关注
     async updateByOther(updateData: any) {
+      console.log(updateData);
+
       const result = await updateByOther(updateData);
       this.user.follows = result.data.follows;
       return result;
+    },
+
+    // 个人关注列表
+    async searchPersonalFollow(searchdata: any): Promise<any> {
+      const res = await fetchUserFollowList(searchdata);
+      return res;
+    },
+
+    // 查看用户界面
+    async enterUserCenter(username: string): Promise<any> {
+      const res = await fetchUserCenter(username);
+      return res;
     },
   },
 });

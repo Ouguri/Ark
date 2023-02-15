@@ -1,17 +1,17 @@
 <template>
   <div class="content">
-    <WhatArk></WhatArk>
-    <ShowUser></ShowUser>
-    <ShowWrite></ShowWrite>
-    <AuthorSay></AuthorSay>
+    <FirstPart></FirstPart>
+    <SecondPart></SecondPart>
+    <ThirdPart></ThirdPart>
+    <FourthPart></FourthPart>
   </div>
 </template>
 
 <script setup lang="ts">
-import WhatArk from "@/components/basic/main_page/main_first_part.vue";
-import ShowUser from "@/components/basic/main_page/main_second_part.vue";
-import ShowWrite from "@/components/basic/main_page/main_third_part.vue";
-import AuthorSay from "@/components/basic/main_page/main_fourth_part.vue";
+import FirstPart from "@/components/basic/main_page/main_first_part.vue";
+import SecondPart from "@/components/basic/main_page/main_second_part.vue";
+import ThirdPart from "@/components/basic/main_page/main_third_part.vue";
+import FourthPart from "@/components/basic/main_page/main_fourth_part.vue";
 </script>
 
 <style lang="scss" scoped>

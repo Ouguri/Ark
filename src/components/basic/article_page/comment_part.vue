@@ -27,52 +27,107 @@
           v-if="managerComment"
           >删除评论</el-button
         >
-        <el-button color="rgb(41, 123, 255)" :dark="true" plain class="btn-sm"
+        <el-button
+          color="rgb(41, 123, 255)"
+          @click="sortComment(1)"
+          :dark="true"
+          plain
+          class="btn-sm"
           >最新</el-button
         >
-        <el-button color="rgb(41, 123, 255)" :dark="true" plain class="btn-sm"
+        <el-button
+          color="rgb(41, 123, 255)"
+          @click="sortComment(2)"
+          :dark="true"
+          plain
+          class="btn-sm"
           >最热</el-button
         >
       </div>
     </div>
     <hr />
     <!-- 评论内容 -- loop -->
-    <div class="comment_box" v-for="item in commentList" :key="item.id">
+    <div
+      class="comment_box"
+      v-for="(item, index) in commentList"
+      :key="item.id"
+    >
       <!-- headerImg -->
       <div class="comment_box_avatar">
-        <HeaderImg
-          class="card_avatar"
-          size="4.3rem"
-          :img="`http://localhost:3000/avatar/${item.user?.avatar}`"
-        >
-          <template #yourName> {{ item.user?.username[0] }} </template>
-        </HeaderImg>
+        <router-link :to="`/ark/${item.user.username}`">
+          <HeaderImg
+            class="card_avatar"
+            size="4.3rem"
+            :img="`http://localhost:3000/avatar/${item.user?.avatar}`"
+          >
+            <template #yourName> {{ item.user?.username[0] }} </template>
+          </HeaderImg>
+        </router-link>
       </div>
       <!-- content -->
       <div class="comment_box_data">
         <!-- name -->
         <!-- level -->
         <div class="comment_box_data_header">
-          <span>{{ item.user?.username }}&nbsp; </span>
-          <span>Lv{{ item.user?.level }}</span>
+          <router-link class="author_link" :to="`/ark/${item.user.username}`">
+            <span
+              >{{ item.user?.username
+              }}{{
+                item.to_uid && item.user.username !== item.to_username
+                  ? `@${item.to_username}`
+                  : ""
+              }}
+              &nbsp;
+            </span>
+            <span>Lv{{ item.user?.level }}</span>
+          </router-link>
         </div>
         <!-- comment content -->
         <div class="comment_box_data_main">{{ item.content }}</div>
         <!-- give a good & comment it -->
         <div class="comment_box_data_footer">
-          <span>
+          <span
+            @click="goodsComment(true, item)"
+            class="comment_box_data_footer_goods"
+          >
             <i-ep-star style="font-size: 1.5rem; vertical-align: text-top" />
-            <span>20</span>
+            <span>{{ item.goods }}</span>
           </span>
-          <span>
+          <span
+            @click="
+              commentModel == -1 ? (commentModel = index) : (commentModel = -1)
+            "
+            class="comment_box_data_footer_reply"
+            :class="commentModel == index ? `showing_reply` : ''"
+          >
             <i-ep-comment style="font-size: 1.5rem; vertical-align: bottom" />
-            <span>32</span>
+            <span>{{ item.reply }}</span>
           </span>
+        </div>
+
+        <div
+          class="comment_box_data_reply"
+          :class="commentModel == index ? `showing_reply` : ''"
+        >
+          <div class="comment_input">
+            <el-input
+              type="text"
+              id="commentData"
+              class="comment_input_box"
+              v-model="replyContent"
+              placeholder="想对他/她说点什么？"
+            />
+            <button class="comment_input_btn" @click="replyComment(item)">
+              回&nbsp;复
+            </button>
+          </div>
         </div>
       </div>
 
       <div class="comment_box_select">
-        <el-checkbox @change="ifClick($event, item.id)">&nbsp;</el-checkbox>
+        <el-checkbox v-if="managerComment" @change="ifClick($event, item.id)"
+          >&nbsp;</el-checkbox
+        >
       </div>
     </div>
   </div>
@@ -90,8 +145,10 @@ const commentStore = useCommentStore();
 const useUserStore = userStore();
 
 const commentContent = ref<string>("");
+const replyContent = ref<string>("");
 
 const managerComment = ref<boolean>(false);
+const commentModel = ref<number>(-1);
 
 const commentListDelete = reactive<string[]>([]);
 
@@ -111,6 +168,7 @@ onMounted(() => {
   if (useUserStore.user.id === props.userID) managerComment.value = true;
 });
 
+// 评论
 const addComment = async () => {
   const commentData = {
     content: commentContent.value,
@@ -124,6 +182,33 @@ const addComment = async () => {
   }
 };
 
+// 回复
+const replyComment = async (item: any) => {
+  const commentData = {
+    content: replyContent.value,
+    articleID: props.id,
+    topic_type: props.topic_type,
+    to_uid: item.to_uid,
+    to_username: item.username,
+    id: item.id,
+  };
+  console.log(commentData);
+
+  const res = await commentStore.replyAndGoods(commentData);
+  if (res.status == 200) {
+    ElMessage({ message: "回复成功", type: "success" });
+    updateData();
+  }
+};
+
+// 点赞
+const goodsComment = async (goods: boolean, item: any) => {
+  const res = await commentStore.replyAndGoods({ goods, id: item.id });
+  if (res.status == 200 && goods) item.goods += 1;
+  if (res.status == 200 && !goods) item.goods -= 1;
+};
+
+// 是否选择该条评论
 const ifClick = (ifTrue: any, id: string) => {
   if (ifTrue) {
     commentListDelete.push(id);
@@ -135,6 +220,25 @@ const ifClick = (ifTrue: any, id: string) => {
   }
 };
 
+// 排序评论
+const sortComment = (way: number) => {
+  if (way === 1) {
+    // 以最新时间
+    commentList.value.sort((t1, t2) => {
+      return new Date(t1.date) < new Date(t2.date) ? 1 : -1;
+    });
+    return;
+  }
+  // 以回复量
+  if (way === 2) {
+    commentList.value.sort((t1, t2) => {
+      return t1.reply < t2.reply ? 1 : -1;
+    });
+    return;
+  }
+};
+
+// 删除评论
 const deleteCommentSelect = async () => {
   const res = await commentStore.deletComment(
     props.id,
@@ -199,6 +303,7 @@ const deleteCommentSelect = async () => {
       top: 0;
     }
     &_data {
+      flex: 1;
       &_header {
         font-size: 1.6em;
         margin-top: 0.7rem;
@@ -215,8 +320,44 @@ const deleteCommentSelect = async () => {
         span {
           margin-right: 0.3rem;
         }
+
+        &_reply,
+        &_goods {
+          cursor: pointer;
+          position: relative;
+          transition: all 0.3s;
+          &:hover {
+            color: rgb(10, 182, 255);
+          }
+        }
+      }
+      &_reply {
+        visibility: hidden;
+        opacity: 0;
+        margin-top: 1rem;
+        height: 0;
+        transition: all 0.5s;
+        transform: translateY(-4.5rem);
       }
     }
+  }
+}
+
+.showing_reply {
+  visibility: visible;
+  opacity: 1;
+  height: 3rem;
+  transform: translateY(0);
+  color: rgb(10, 182, 255);
+}
+
+.author_link {
+  color: $article_font_color_dark;
+  font-size: 0.7em;
+  position: relative;
+  transition: all 0.3s;
+  &:hover {
+    color: #fff;
   }
 }
 

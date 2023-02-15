@@ -14,6 +14,7 @@
             type="text"
             v-model="searchData"
             @focus="searchData = ``"
+            @keydown.enter="searchContent"
           />
           <button @click.prevent="searchContent" class="search_box_icon">
             <i-ep-search style="font-size: 2.4rem" />

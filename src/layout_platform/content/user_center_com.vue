@@ -8,15 +8,24 @@
           size="28rem"
           tran-x="-5.6rem"
           text-tranx="0"
-          @click="centerDialogVisible = true"
-          :img="avatar"
+          :img="`http://localhost:3000/avatar/${userData?.avatar}`"
         >
         </HeaderImg>
       </div>
-      <h2 class="text-3xl my-1">{{ useUserStore.user.username }}</h2>
+      <h2 class="text-3xl my-1">{{ userData?.username }}</h2>
       <div class="mt-2 w-full flex justify-between">
-        <button class="menu-btn edit">编辑资料</button>
-        <!-- <button class="menu-btn edit">关注</button> -->
+        <button
+          class="menu-btn edit"
+          @click="
+            reward({
+              followers: followStatus ? -1 : 1,
+              username: userData?.username,
+              avatar: userData?.avatar,
+            })
+          "
+        >
+          {{ followStatus ? `已关注` : `关注` }}
+        </button>
       </div>
       <div class="mt-2">
         Lv 1：<el-progress :percentage="percentage" color="rgb(75, 155, 96)" />
@@ -61,47 +70,34 @@
       </div>
     </div>
   </div>
-
-  <el-dialog
-    v-model="centerDialogVisible"
-    title="更换头像"
-    width="30%"
-    align-center
-  >
-    <div class="flex justify-center">
-      <HeaderChange></HeaderChange>
-    </div>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="centerDialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="avatarFinish"> 确定 </el-button>
-      </span>
-    </template>
-  </el-dialog>
 </template>
 
 <script setup lang="ts">
 import HeaderImg from "@/components/basic/theme_component/header_img.vue";
-import HeaderChange from "@/components/basic/theme_component/header_change.vue";
-import { ref, onMounted, inject } from "vue";
+import { ref } from "vue";
+import { useRoute } from "vue-router";
 import { userStore } from "@/stores/user";
-import { getUserAvater } from "@/hook/getAvatar";
+import type { User } from "@/libcommon";
+import { rewardUser } from "@/hook/followUser";
 
 const useUserStore = userStore();
+const route = useRoute();
+const followStatus = ref<boolean>(false);
 
+const userData = ref<User>();
 const percentage = ref(20);
-const centerDialogVisible = ref(false);
-const { avatar, avatarGetStart } = getUserAvater();
 
-const updateData = inject<Function>("reload") as Function;
+const res = await useUserStore.enterUserCenter(route.params.username as string);
+userData.value = res.data;
+// 是否关注了该作者
+if (useUserStore.user.follows) {
+  followStatus.value = useUserStore.user.follows
+    .map((item) => item.username)
+    .includes(userData.value?.username);
+}
 
-onMounted(() => {
-  avatarGetStart();
-});
-
-const avatarFinish = () => {
-  centerDialogVisible.value = false;
-  updateData();
+const reward = async (reward: any) => {
+  await rewardUser(reward, followStatus);
 };
 </script>
 

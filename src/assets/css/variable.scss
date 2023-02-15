@@ -19,6 +19,7 @@ $article_box_shadow: 0;
 $article_user_card_padding: 1.5rem;
 $article_card_bgc_color: var(--article-card-color, rgb(18, 15, 25));
 $article_card_shadow: var(--shadow-card,rgb(40, 44, 52));
+$article_card_shadow_hover: var(--shadow-card_hover, rgba(40, 44, 52, 0.61));
 $article_tip_card: var(--tip-card, #282c34);
 
 // 页面变量

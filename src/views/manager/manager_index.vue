@@ -1,11 +1,11 @@
 <template>
-  <IndexPage></IndexPage>
+  <MainPageManager></MainPageManager>
 </template>
 
 <script setup lang="ts">
 import { defineAsyncComponent } from "vue";
-const IndexPage = defineAsyncComponent(
-  () => import("@/layout_platform/content/indexpage.vue")
+const MainPageManager = defineAsyncComponent(
+  () => import("@/layout_platform/content/manager_index_com.vue")
 );
 </script>
 

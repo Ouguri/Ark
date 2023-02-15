@@ -3,7 +3,10 @@
     <div class="article_box_left">
       <div class="article_box_left_link">
         <div class="article_box_left_link_author">
-          <router-link class="card" to="/platform">
+          <router-link
+            class="card"
+            :to="`/ark/${article_content.user.username}`"
+          >
             <HeaderImg
               class="card_img"
               size="7.3rem"
@@ -25,9 +28,10 @@
           <div class="card_btn">
             <button
               @click="
-                rewardUser({
+                reward({
                   followers: 1,
                   username: article_content.user.username,
+                  avatar: article_content.user.avatar,
                 })
               "
               class="card_btn_first"
@@ -37,9 +41,10 @@
             </button>
             <button
               @click="
-                rewardUser({
+                reward({
                   followers: -1,
                   username: article_content.user.username,
+                  avatar: article_content.user.avatar,
                 })
               "
               class="card_btn_second"
@@ -83,17 +88,17 @@
       <div class="article_box_right_articlepart">
         <h1>{{ article_content.title }}</h1>
         <div class="article_box_right_author">
-          <router-link to="/">
+          <router-link :to="`/ark/${article_content.user.username}`">
             <HeaderImg
               size="6.3rem"
               :img="`http://localhost:3000/avatar/${article_content.user.avatar}`"
             ></HeaderImg>
           </router-link>
           <div class="article_box_right_author_data">
-            <router-link class="author_link" to="/">
+            <div class="author_link">
               <span>{{ article_content.user?.username }}&nbsp;</span>
               <span>Lv: {{ article_content.user?.level }}</span>
-            </router-link>
+            </div>
             <div class="author_watch">
               <span>发布时间：{{ useArticleStore.formatDate }}</span>
               <span> -- </span>
@@ -131,7 +136,7 @@ import { useRoute } from "vue-router";
 import { onMounted, ref, reactive, nextTick, defineAsyncComponent } from "vue";
 import HeaderImg from "@/components/basic/theme_component/header_img.vue";
 import { storeToRefs } from "pinia";
-import { ElMessage } from "element-plus";
+import { rewardUser } from "@/hook/followUser";
 
 const ArticleComment = defineAsyncComponent(
   () => import("@/components/basic/article_page/comment_part.vue")
@@ -189,15 +194,8 @@ const handleAnchorClick = (lineIndex: number): void => {
   if (heading) heading.scrollIntoView({ behavior: "smooth" });
 };
 
-const rewardUser = async (reward: any) => {
-  const username = article_content.value.user.username;
-  if (username !== useUserStore.user.username) {
-    const res = await useUserStore.updateByOther(reward);
-    res.status == 200
-      ? (followStatus.value = !followStatus.value)
-      : ElMessage({ message: "关注失败，请稍后重试！", type: "error" });
-  } else ElMessage({ message: "不可以关注自己哦！", type: "warning" });
-};
+// 关注
+const reward = async (reward: any) => rewardUser(reward, followStatus);
 </script>
 
 <style lang="scss" scoped>

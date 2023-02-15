@@ -55,7 +55,7 @@ const router = createRouter({
         {
           path: "",
           name: "personindex",
-          component: () => import("@/views/manager/manager_index.vue"),
+          component: () => import("@/views/manager/manager_user.vue"),
         },
         {
           path: "articles",
@@ -65,7 +65,17 @@ const router = createRouter({
         {
           path: "comments",
           name: "commentManager",
-          component: () => import("@/views/manager/manager_comments.vue"),
+          component: () => import("@/views/manager/manager_article.vue"),
+        },
+        {
+          path: "follows",
+          name: "followsManager",
+          component: () => import("@/views/manager/manager_follow.vue"),
+        },
+        {
+          path: "mainindex",
+          name: "mainindexManager",
+          component: () => import("@/views/manager/manager_index.vue"),
         },
       ],
     },

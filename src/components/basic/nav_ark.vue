@@ -13,7 +13,12 @@
         </li>
         <li class="nav_ul_select">
           <div class="search_box">
-            <input type="text" v-model="searchData" @focus="searchData = ``" />
+            <input
+              type="text"
+              v-model="searchData"
+              @focus="searchData = ``"
+              @keydown.enter="searchContent"
+            />
             <button class="search_box_icon" @click="searchContent">
               <i-ep-search style="font-size: 1.5rem" />
             </button>

@@ -38,16 +38,21 @@
               >
             </el-menu-item-group>
           </el-sub-menu>
-          <router-link :to="{ name: 'commentManager' }">
-            <el-menu-item :index="`${useUserStore.user.username}/comments`">
+          <router-link :to="{ name: 'mainindexManager' }">
+            <el-menu-item
+              :index="`${useUserStore.user.username}/comments`"
+              v-btn-use="`superAdmin:indexControl`"
+            >
               <el-icon><document /></el-icon>
-              <span>评论管理</span>
+              <span>主页管理</span>
             </el-menu-item>
           </router-link>
-          <el-menu-item :index="`${useUserStore.user.username}/follows`">
-            <el-icon><document /></el-icon>
-            <span>关注列表</span>
-          </el-menu-item>
+          <router-link :to="{ name: 'followsManager' }">
+            <el-menu-item :index="`${useUserStore.user.username}/follows`">
+              <el-icon><document /></el-icon>
+              <span>关注列表</span>
+            </el-menu-item>
+          </router-link>
         </el-menu>
       </el-col>
     </el-row>
@@ -61,6 +66,7 @@
 import { Document, Menu as IconMenu, Location } from "@element-plus/icons-vue";
 import { userStore } from "@/stores/user";
 import { onMounted, onUnmounted, ref } from "vue";
+import type { Directive } from "vue";
 
 const useUserStore = userStore();
 
@@ -78,6 +84,17 @@ onUnmounted(() => {
 const handleSelect = (index: string) => {
   sessionStorage.setItem("historyPath", index);
 };
+
+const authBtnList = ["ouguri:superAdmin:indexControl"];
+
+// 权限管理 -- 当然后台数据还没返回啦。
+const vBtnUse: Directive<HTMLElement, string> = (el, binding) => {
+  if (authBtnList.includes(`${useUserStore.user.username}:${binding.value}`)) {
+    el.style.display = "flex";
+  } else {
+    el.style.display = "none";
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -85,7 +102,7 @@ const handleSelect = (index: string) => {
 
 .menu {
   background-color: rgb(23, 23, 25);
-  height: calc(100vh - 7rem);
+  min-height: calc(100vh - 7rem);
   border-right: 1px solid rgb(75, 155, 96);
 }
 .menu-ark {

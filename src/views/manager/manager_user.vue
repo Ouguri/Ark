@@ -1,9 +1,8 @@
 <template>
-  <NavGloal class="nav_position_open"></NavGloal>
   <div class="container">
     <Suspense>
       <template #default>
-        <UserCenter class="userCenter"></UserCenter>
+        <IndexPage></IndexPage>
       </template>
       <template #fallback>
         <span>Loading...</span>
@@ -14,8 +13,8 @@
 
 <script setup lang="ts">
 import { defineAsyncComponent } from "vue";
-const UserCenter = defineAsyncComponent(
-  () => import("@/layout_platform/content/user_center_com.vue")
+const IndexPage = defineAsyncComponent(
+  () => import("@/layout_platform/content/indexpage.vue")
 );
 </script>
 

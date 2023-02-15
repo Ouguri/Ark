@@ -11,6 +11,13 @@ export const signIn = async (signin_data: any): Promise<AxiosResponse> =>
 export const signUp = async (signup_data: any): Promise<AxiosResponse> =>
   await requestUser({ url: `/user/signup`, method: "post", data: signup_data });
 
+// 查看用户中心
+export const fetchUserCenter = async (username: string) =>
+  await requestUser({
+    url: `/user/${username}`,
+    method: "get",
+  });
+
 // 新增文章接口
 export const createArticle = async (
   Article_data: Article
@@ -83,6 +90,17 @@ export const fetchComments = async (
   });
 };
 
+// 点赞和回复
+export const replyAndGoodsComment = async (
+  data: any
+): Promise<AxiosResponse> => {
+  return await requestUser({
+    url: `/comment/update`,
+    method: "post",
+    data,
+  });
+};
+
 // 删除评论
 export const deleteComments = async (data: any) => {
   return await requestUser({
@@ -98,5 +116,23 @@ export const updateByOther = async (updateData: any) => {
     url: `/user`,
     method: "patch",
     data: updateData,
+  });
+};
+
+// 获取关注列表
+export const fetchUserFollowList = async (searchdata: any) => {
+  return await requestUser({
+    url: `/user/follow`,
+    method: "post",
+    data: searchdata,
+  });
+};
+
+// 获取主页信息
+export const fetchIndexData = async (name: string) => {
+  return await requestUser({
+    url: `/managerindex`,
+    method: "get",
+    params: { name },
   });
 };
